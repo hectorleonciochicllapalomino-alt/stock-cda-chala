@@ -1,12 +1,11 @@
 <!doctype html>
+
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#174a78">
-<title>Stock Chala | Consulta de vendedores</title>
-
-<style>
+<title>Stock Chala | Consulta de vendedores</title><style>
 *{box-sizing:border-box}
 
 body{
@@ -165,20 +164,22 @@ body{
 }
 
 .table-wrap{
- overflow:auto
+ width:100%;
+ overflow:hidden
 }
 
 table{
  width:100%;
  border-collapse:collapse;
- min-width:650px
+ table-layout:fixed
 }
 
 th,td{
- padding:11px 12px;
+ padding:11px 10px;
  border-top:1px solid #dbe3ec;
  text-align:left;
- font-size:13px
+ font-size:13px;
+ overflow:hidden
 }
 
 th{
@@ -204,7 +205,7 @@ th{
  width:11px;
  height:11px;
  border-radius:50%;
- margin-left:6px;
+ margin-left:5px;
  vertical-align:-1px;
  border:1px solid rgba(0,0,0,.12)
 }
@@ -229,7 +230,8 @@ th{
  font-size:10px;
  font-weight:700;
  padding:4px 7px;
- border-radius:999px
+ border-radius:999px;
+ white-space:nowrap
 }
 
 .badge.ok{
@@ -297,236 +299,322 @@ th{
  display:none!important
 }
 
+
+/* =========================
+   CELULAR
+========================= */
+
 @media(max-width:700px){
 
  .header{
-  padding:13px 12px
+  padding:13px 10px
  }
 
  .header h1{
-  font-size:21px
+  font-size:20px
  }
 
  .header p{
-  font-size:11px
+  font-size:10px
  }
 
  .card{
-  width:calc(100% - 12px);
-  margin:7px auto;
-  border-radius:11px
+  width:calc(100% - 8px);
+  margin:5px auto;
+  border-radius:10px
  }
 
  .top{
-  padding:12px
+  padding:10px
  }
 
  .title{
   align-items:flex-start;
   flex-direction:column;
-  gap:4px
+  gap:3px
  }
 
  .title h2{
+  font-size:17px
+ }
+
+ .meta{
+  font-size:10px
+ }
+
+ .ok{
+  font-size:10px
+ }
+
+ .stats{
+  grid-template-columns:repeat(4,1fr);
+  gap:4px;
+  margin-top:10px
+ }
+
+ .stat{
+  padding:7px 3px;
+  text-align:center
+ }
+
+ .stat b{
+  font-size:15px
+ }
+
+ .stat span{
+  font-size:7px
+ }
+
+ .filter{
+  margin-top:10px
+ }
+
+ .field label{
+  font-size:9px
+ }
+
+ .field select{
+  height:34px;
+  font-size:11px;
+  padding:0 7px
+ }
+
+ .search{
+  gap:5px;
+  margin-top:7px
+ }
+
+ .search input{
+  height:34px;
+  min-width:0;
+  font-size:11px;
+  padding:0 8px
+ }
+
+ .btn{
+  height:34px;
+  padding:0 8px;
+  font-size:9px
+ }
+
+ .section-title{
+  padding:9px 8px 5px;
+  font-size:10px
+ }
+
+ .count{
+  padding:0 8px 6px;
+  font-size:9px
+ }
+
+ /*
+  Las 5 columnas permanecen visibles:
+  BASIS | SAP | PRODUCTO | STOCK | ESTADO
+ */
+
+ table{
+  width:100%;
+  table-layout:fixed
+ }
+
+ th,td{
+  padding:7px 3px;
+  font-size:9px;
+  line-height:1.15
+ }
+
+ th{
+  font-size:7px;
+  letter-spacing:0
+ }
+
+ th:nth-child(1),
+ td:nth-child(1){
+  width:14%
+ }
+
+ th:nth-child(2),
+ td:nth-child(2){
+  width:14%
+ }
+
+ th:nth-child(3),
+ td:nth-child(3){
+  width:34%
+ }
+
+ th:nth-child(4),
+ td:nth-child(4){
+  width:18%
+ }
+
+ th:nth-child(5),
+ td:nth-child(5){
+  width:20%
+ }
+
+ td:nth-child(1),
+ td:nth-child(2){
+  font-size:8px;
+  word-break:break-all
+ }
+
+ td:nth-child(3){
+  font-weight:600;
+  word-break:break-word
+ }
+
+ td:nth-child(4){
+  text-align:center
+ }
+
+ td:nth-child(5){
+  text-align:center
+ }
+
+ .stock{
+  font-size:10px
+ }
+
+ .sem{
+  width:8px;
+  height:8px;
+  margin-left:2px
+ }
+
+ .badge{
+  font-size:7px;
+  padding:3px 3px
+ }
+
+ .footer{
+  padding:7px 8px;
+  font-size:8px
+ }
+
+}
+
+
+/* =========================
+   CELULARES MUY PEQUEÑOS
+========================= */
+
+@media(max-width:380px){
+
+ .header h1{
   font-size:18px
  }
 
  .stats{
-  grid-template-columns:repeat(2,1fr);
-  gap:7px
+  gap:3px
  }
 
  .stat{
-  padding:9px
+  padding:6px 2px
  }
 
  .stat b{
-  font-size:17px
- }
-
- .field select,
- .search input{
-  height:36px;
-  font-size:12px
- }
-
- .btn{
-  height:36px;
-  padding:0 11px;
-  font-size:11px
- }
-
- .section-title{
-  padding:11px 12px 7px
- }
-
- .count{
-  padding:0 12px 7px
+  font-size:14px
  }
 
  th,td{
-  padding:8px 7px;
-  font-size:10px
+  padding:6px 2px;
+  font-size:8px
  }
 
- .footer{
-  padding:9px 12px
+ th{
+  font-size:6px
  }
+
+ td:nth-child(1),
+ td:nth-child(2){
+  font-size:7px
+ }
+
+ .stock{
+  font-size:9px
+ }
+
+ .badge{
+  font-size:6px;
+  padding:2px
+ }
+
+ .sem{
+  width:7px;
+  height:7px
+ }
+
 }
-</style>
-</head>
-
-<body>
-
-<div id="welcome" class="modal">
- <div class="modalbox">
-  <h2>Bienvenido a Stock Chala</h2>
-
-  <p>
+</style></head><body><div id="welcome" class="modal"> <div class="modalbox">  <h2>Bienvenido a Stock Chala</h2>  <p>
    Consulta el stock disponible desde tu celular.
    Puedes buscar por BASIS, SAP o descripción
    y filtrar por nivel de stock.
-  </p>
-
-  <button class="enter" onclick="cerrar()">Ingresar</button>
- </div>
-</div>
-
-<header class="header">
- <h1>Stock CDA Chala</h1>
- <p>Consulta de stock · Vendedores</p>
-</header>
-
-<main class="card">
-
-<section class="top">
-
- <div class="title">
-
-  <div>
-   <h2>Stock de productos</h2>
-   <div id="meta" class="meta">
+  </p>  <button class="enter" onclick="cerrar()">
+   Ingresar
+  </button> </div></div><header class="header"> <h1>Stock CDA Chala</h1> <p>
+  Consulta de stock · Vendedores
+ </p></header><main class="card"><section class="top"> <div class="title">  <div>   <h2>Stock de productos</h2>   <div id="meta" class="meta">
     Cargando datos...
-   </div>
-  </div>
-
-  <div class="ok">
+   </div>  </div>  <div class="ok">
    Datos cargados
-  </div>
-
- </div>
-
- <div class="stats">
-
-  <div class="stat">
+  </div> </div> <div class="stats">  <div class="stat">
    <b id="total">0</b>
    <span>PRODUCTOS</span>
-  </div>
-
-  <div class="stat">
+  </div>  <div class="stat">
    <b id="ok">0</b>
    <span>OK</span>
-  </div>
-
-  <div class="stat">
+  </div>  <div class="stat">
    <b id="crit">0</b>
    <span>CRÍTICOS</span>
-  </div>
-
-  <div class="stat">
+  </div>  <div class="stat">
    <b id="agot">0</b>
    <span>AGOTADOS</span>
-  </div>
+  </div> </div> <div class="filter">  <div class="field">   <label>
+    SEMÁFORO DE STOCK
+   </label>   <select id="semaforo"><option value="">
+ Todos
+</option>
 
- </div>
+<option value="verde">
+ 🟢 Verde — mayor a 50
+</option>
 
- <div class="filter">
+<option value="amarillo">
+ 🟡 Amarillo — mayor a 15 y hasta 50
+</option>
 
-  <div class="field">
+<option value="anaranjado">
+ 🟠 Anaranjado — mayor a 5 y hasta 15
+</option>
 
-   <label>SEMÁFORO DE STOCK</label>
+<option value="rojo">
+ 🔴 Rojo — hasta 5
+</option>
 
-   <select id="semaforo">
+   </select>  </div> </div> <div class="search"><input
+id="q"
+placeholder="🔎 Buscar Inka Cola, Coca Cola..."
+autocomplete="off"
 
-    <option value="">Todos</option>
-
-    <option value="verde">
-     🟢 Verde — mayor a 50
-    </option>
-
-    <option value="amarillo">
-     🟡 Amarillo — mayor a 15 y hasta 50
-    </option>
-
-    <option value="anaranjado">
-     🟠 Anaranjado — mayor a 5 y hasta 15
-    </option>
-
-    <option value="rojo">
-     🔴 Rojo — hasta 5
-    </option>
-
-   </select>
-
-  </div>
-
- </div>
-
- <div class="search">
-
-  <input
-   id="q"
-   placeholder="Buscar por BASIS, SAP o descripción..."
-  >
+«»
 
   <button class="btn" onclick="cargar()">
    ↻ Actualizar
-  </button>
-
- </div>
-
-</section>
-
-<section class="section">
-
- <div class="section-title">
+  </button> </div></section><section class="section"> <div class="section-title">
   Stock disponible
- </div>
+ </div> <div id="count" class="count"></div> <div class="table-wrap">  <table>   <thead><tr>
+ <th>BASIS</th>
+ <th>SAP</th>
+ <th>PRODUCTO</th>
+ <th>STOCK</th>
+ <th>ESTADO</th>
+</tr>
 
- <div id="count" class="count"></div>
+   </thead>   <tbody id="body"></tbody>  </table> </div></section><div class="footer">Fuente: hoja STOCK_APP / Saldo Actual.
+La aplicación es de consulta; la actualización del stock se realiza en el archivo fuente.
 
- <div class="table-wrap">
-
-  <table>
-
-   <thead>
-
-    <tr>
-     <th>BASIS</th>
-     <th>SAP</th>
-     <th>DESCRIPCIÓN</th>
-     <th>STOCK</th>
-     <th>ESTADO</th>
-    </tr>
-
-   </thead>
-
-   <tbody id="body"></tbody>
-
-  </table>
-
- </div>
-
-</section>
-
-<div class="footer">
- Fuente: hoja STOCK_APP / Saldo Actual.
- La aplicación es de consulta; la actualización del stock se realiza en el archivo fuente.
-</div>
-
-</main>
-
-<script>
+</div></main><script>
 
 let data={
  rows:[]
@@ -534,9 +622,13 @@ let data={
 
 const $=id=>document.getElementById(id);
 
+
 function cerrar(){
+
  $("welcome").classList.add("hidden");
+
 }
+
 
 function semaforo(r){
 
@@ -554,7 +646,9 @@ function semaforo(r){
  if(n>5)return"anaranjado";
 
  return"rojo";
+
 }
+
 
 function estado(r){
 
@@ -574,7 +668,9 @@ function estado(r){
  if(n<=15)return"CRÍTICO";
 
  return"OK";
+
 }
+
 
 function estadoBadge(e){
 
@@ -583,7 +679,9 @@ function estadoBadge(e){
  if(e==="CRÍTICO")return"crit";
 
  return"agot";
+
 }
+
 
 function fmt(n){
 
@@ -596,6 +694,7 @@ function fmt(n){
 
 }
 
+
 function valor(r,campo1,campo2){
 
  return r[campo1] ??
@@ -604,23 +703,104 @@ function valor(r,campo1,campo2){
 
 }
 
+
+/* 
+   Permite buscar sin preocuparse
+   por mayúsculas o tildes.
+*/
+
+function normalizar(texto){
+
+ return String(texto ?? "")
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"")
+  .trim();
+
+}
+
+
 function render(){
 
  const sem=$("semaforo").value;
 
- const q=$("q")
-  .value
-  .trim()
-  .toLowerCase();
+ const q=normalizar(
+  $("q").value
+ );
 
- const rows=data.rows
-  .filter(r=>{
+
+ const rows=data.rows.filter(r=>{
+
+  const s=semaforo(r);
+
+  const basis=valor(
+   r,
+   "BASIS",
+   "basis"
+  );
+
+  const sap=valor(
+   r,
+   "SAP",
+   "sap"
+  );
+
+  const desc=valor(
+   r,
+   "DESCRIPCION",
+   "descripcion"
+  );
+
+
+  /*
+   Busca por BASIS,
+   SAP o DESCRIPCIÓN.
+  */
+
+  const txt=normalizar(
+   [
+    basis,
+    sap,
+    desc
+   ].join(" ")
+  );
+
+
+  return
+   (!sem || s===sem) &&
+   (!q || txt.includes(q));
+
+ });
+
+
+ $("count").textContent=
+  rows.length+
+  " productos encontrados";
+
+
+ $("body").innerHTML=
+
+  rows.length
+
+  ?
+
+  rows.map(r=>{
 
    const s=semaforo(r);
 
-   const basis=valor(r,"BASIS","basis");
+   const e=estado(r);
 
-   const sap=valor(r,"SAP","sap");
+   const basis=valor(
+    r,
+    "BASIS",
+    "basis"
+   );
+
+   const sap=valor(
+    r,
+    "SAP",
+    "sap"
+   );
 
    const desc=valor(
     r,
@@ -628,94 +808,81 @@ function render(){
     "descripcion"
    );
 
-   const txt=[
-    basis,
-    sap,
-    desc
-   ].join(" ").toLowerCase();
+   const stock=valor(
+    r,
+    "STOCK_TOTAL",
+    "stock_total"
+   );
 
-   return
-    (!sem || s===sem) &&
-    (!q || txt.includes(q));
 
-  });
+   return `
 
- $("count").textContent=
-  rows.length+
-  " productos encontrados";
-
- $("body").innerHTML=
-  rows.length
-   ?
-   rows.map(r=>{
-
-    const s=semaforo(r);
-
-    const e=estado(r);
-
-    const basis=valor(
-     r,
-     "BASIS",
-     "basis"
-    );
-
-    const sap=valor(
-     r,
-     "SAP",
-     "sap"
-    );
-
-    const desc=valor(
-     r,
-     "DESCRIPCION",
-     "descripcion"
-    );
-
-    const stock=valor(
-     r,
-     "STOCK_TOTAL",
-     "stock_total"
-    );
-
-    return `
-     <tr>
-
-      <td>${basis}</td>
-
-      <td>${sap}</td>
-
-      <td>${desc}</td>
-
-      <td class="num stock">
-       ${fmt(stock)}
-       <span class="sem ${s}"></span>
-      </td>
-
-      <td>
-       <span class="badge ${estadoBadge(e)}">
-        ${e}
-       </span>
-      </td>
-
-     </tr>
-    `;
-
-   }).join("")
-
-   :
-
-   `
     <tr>
-     <td
-      colspan="5"
-      style="text-align:center;padding:30px"
-     >
-      No hay productos con esos filtros.
+
+     <td>
+      ${basis}
      </td>
+
+     <td>
+      ${sap}
+     </td>
+
+     <td>
+      ${desc}
+     </td>
+
+     <td class="num stock">
+
+      ${fmt(stock)}
+
+      <span
+       class="sem ${s}"
+      ></span>
+
+     </td>
+
+     <td>
+
+      <span
+       class="badge ${estadoBadge(e)}"
+      >
+       ${e}
+      </span>
+
+     </td>
+
     </tr>
+
    `;
 
+  }).join("")
+
+
+  :
+
+  `
+
+   <tr>
+
+    <td
+     colspan="5"
+     style="
+      text-align:center;
+      padding:30px
+     "
+    >
+
+     No hay productos
+     con esos filtros.
+
+    </td>
+
+   </tr>
+
+  `;
+
 }
+
 
 function cargar(){
 
@@ -729,32 +896,45 @@ function cargar(){
  .then(r=>{
 
   if(!r.ok){
-   throw new Error("No se pudo cargar datos.json");
+
+   throw new Error(
+    "No se pudo cargar datos.json"
+   );
+
   }
 
   return r.json();
 
  })
 
+
  .then(d=>{
 
   /*
    Compatible con:
    {rows:[...]}
-   y también directamente [...]
+   y también [...]
   */
 
   if(Array.isArray(d)){
+
    data={
     rows:d
    };
+
   }else{
+
    data=d;
+
   }
 
+
   if(!Array.isArray(data.rows)){
+
    data.rows=[];
+
   }
+
 
   const c={
    OK:0,
@@ -762,13 +942,19 @@ function cargar(){
    AGOTADO:0
   };
 
+
   data.rows.forEach(r=>{
+
    const e=estado(r);
 
    if(c[e]!==undefined){
+
     c[e]++;
+
    }
+
   });
+
 
   $("total").textContent=
    data.rows.length;
@@ -782,62 +968,81 @@ function cargar(){
   $("agot").textContent=
    c.AGOTADO;
 
+
   const fecha=
+
    d.updated
+
     ?
+
     new Date(d.updated)
      .toLocaleString("es-PE")
+
     :
+
     new Date()
      .toLocaleString("es-PE");
+
 
   $("meta").textContent=
    data.rows.length+
    " productos · actualizado "+
    fecha;
 
+
   render();
 
  })
+
 
  .catch(error=>{
 
   console.error(error);
 
+
   $("meta").textContent=
    "No se pudo cargar la información";
 
+
   $("body").innerHTML=`
+
    <tr>
+
     <td
      colspan="5"
-     style="text-align:center;padding:30px"
+     style="
+      text-align:center;
+      padding:30px
+     "
     >
+
      No se pudo cargar el stock.
      Presiona "Actualizar".
+
     </td>
+
    </tr>
+
   `;
 
  });
 
 }
 
-$("semaforo")
- .addEventListener(
-  "change",
-  render
- );
 
-$("q")
- .addEventListener(
-  "input",
-  render
- );
+$("semaforo").addEventListener(
+ "change",
+ render
+);
+
+
+$("q").addEventListener(
+ "input",
+ render
+);
+
 
 cargar();
 
-</script>
-
-</body>
+</script></body>
 </html>
