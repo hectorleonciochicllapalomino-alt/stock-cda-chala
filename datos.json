@@ -1,0 +1,772 @@
+[
+  {
+    "sap": 250030,
+    "descripcion": "INCA KOLA VR 296 x24",
+    "stock_total": 431.75,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 250032,
+    "descripcion": "INCA KOLA VR 1000 x12",
+    "stock_total": 247.67,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 256790,
+    "descripcion": "INCA KOLA PET 3LX04-RF 2.0",
+    "stock_total": 1491.25,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 250029,
+    "descripcion": "INCA KOLA 192 VRE x24",
+    "stock_total": 73.04,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 256817,
+    "descripcion": "INCA KOLA PET 600ML X12 RF 2.0",
+    "stock_total": 1542.17,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 254974,
+    "descripcion": "INCA KOLA ZERO PET 2250 x06",
+    "stock_total": 17.0,
+    "estado": "CRÍTICO",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 256500,
+    "descripcion": "INCA KOLA PET 300MLX6-CRCG ET/PR",
+    "stock_total": 682.0,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 256565,
+    "descripcion": "INCA KOLA SIN AZUCAR PET 600MLX12",
+    "stock_total": 0.0,
+    "estado": "AGOTADO",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 256813,
+    "descripcion": "INCA KOLA PET 1LX6 RF 2.0",
+    "stock_total": 197.17,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 256816,
+    "descripcion": "INCA KOLA PET 2.5LX6 RF 2.0",
+    "stock_total": 1811.5,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 252565,
+    "descripcion": "INCA KOLA 400 VR x20",
+    "stock_total": 51.4,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 250033,
+    "descripcion": "INCA KOLA VR 1500 x08",
+    "stock_total": 307.38,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 256899,
+    "descripcion": "POWERADE MARACUYA PET 600ML X06",
+    "stock_total": 23.17,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 256668,
+    "descripcion": "COCA COLA 1.0 PET PQX6 RF",
+    "stock_total": 130.0,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 256671,
+    "descripcion": "COCA COLA PR 2L X 8 RF",
+    "stock_total": 3.63,
+    "estado": "CRÍTICO",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 256673,
+    "descripcion": "COCA COLA PET 1.5LX6 RF",
+    "stock_total": 134.0,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 256809,
+    "descripcion": "INCA KOLA PET 1.5LX6 RF 2.0",
+    "stock_total": 168.33,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 751315,
+    "descripcion": "MONSTER ENERGY 473MLX4",
+    "stock_total": 0.5,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 751468,
+    "descripcion": "MONSTER ENERGY ULTRA 473MLX4",
+    "stock_total": 19.75,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 751544,
+    "descripcion": "MONSTER ENERGY ZERO SUGAR 473MLX4",
+    "stock_total": 21.0,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 751564,
+    "descripcion": "MONSTER ENERGY MANGO LOCO 473MLX4",
+    "stock_total": 10.0,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 751567,
+    "descripcion": "MONSTER ENERGY MANGO LOCO 473MLX4",
+    "stock_total": 18.25,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 256919,
+    "descripcion": "SPRITE PET500x12 RF",
+    "stock_total": 81.83,
+    "estado": "OK",
+    "familia": "SPRITE"
+  },
+  {
+    "sap": 256419,
+    "descripcion": "FRUGOS BEBIDA DZ. PT 1000X6",
+    "stock_total": 48.17,
+    "estado": "CRÍTICO",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 254916,
+    "descripcion": "FRUGOS BEBIDA MANGO TBA 235ML X24",
+    "stock_total": 22.75,
+    "estado": "CRÍTICO",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 254898,
+    "descripcion": "FRUGOS BEBIDA DURAZNO TBA ML 235 X 24",
+    "stock_total": 312.75,
+    "estado": "OK",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 256567,
+    "descripcion": "FRUGOS DEL VALLE FRESH PET 500MLX12",
+    "stock_total": 374.5,
+    "estado": "OK",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 256599,
+    "descripcion": "FRUGOS FR NAR PET 1.5X6",
+    "stock_total": 29.67,
+    "estado": "CRÍTICO",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 256696,
+    "descripcion": "FRUGOS DEL VALLE FRESH FRUIT PUNCH PET 1.5X6",
+    "stock_total": 10.5,
+    "estado": "CRÍTICO",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 256698,
+    "descripcion": "FRUGOS DEL VALLE FRESH FRUIT PUNCH PET 500X12",
+    "stock_total": 41.5,
+    "estado": "CRÍTICO",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 256740,
+    "descripcion": "FRUGOS DEL VALLE FRESH NARANJA PET 3 LT X4",
+    "stock_total": 44.0,
+    "estado": "CRÍTICO",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 250421,
+    "descripcion": "COCA COLA VR1000x12",
+    "stock_total": 287.58,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 250418,
+    "descripcion": "COCA COLA VR296x24",
+    "stock_total": 255.08,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 256524,
+    "descripcion": "COCA COLA PET 3LT X4 RF",
+    "stock_total": 1604.75,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 256953,
+    "descripcion": "FRUGOS DEL VALLE FRESH NARANJAPET 350MLX20",
+    "stock_total": 70.8,
+    "estado": "OK",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 256960,
+    "descripcion": "FURY GOLD STRIKE PET 350MLX12",
+    "stock_total": 33.08,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 256970,
+    "descripcion": "SAN LUIS EXPRIM MANZANA C/G 625MLX15",
+    "stock_total": 76.8,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 256971,
+    "descripcion": "SAN LUIS EXPRIM MARACUYA C/G 625MLX15",
+    "stock_total": 14.13,
+    "estado": "CRÍTICO",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 751689,
+    "descripcion": "MONSTER ENERGY ULTRA PARADISE 473MLX4",
+    "stock_total": 7.0,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 256983,
+    "descripcion": "SAN LUIS EXPRIM LIMON PET S/G 625MLX15",
+    "stock_total": 177.93,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 256995,
+    "descripcion": "FDV BEB DURAZNO TPA 970MLX12",
+    "stock_total": 23.0,
+    "estado": "CRÍTICO",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 256996,
+    "descripcion": "FDV BEB MANGO TPA 970MLX12",
+    "stock_total": 9.0,
+    "estado": "CRÍTICO",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 257017,
+    "descripcion": "FDV BEB DURAZNO TBA 1.45LX8",
+    "stock_total": 181.13,
+    "estado": "OK",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 257019,
+    "descripcion": "FDV BEB NARANJA TBA 1.45LX8",
+    "stock_total": 17.0,
+    "estado": "CRÍTICO",
+    "familia": "FRUGOS"
+  },
+  {
+    "sap": 751750,
+    "descripcion": "MONSTER ENERGY PIPELINE PUNCH 473MLX4",
+    "stock_total": 60.0,
+    "estado": "OK",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 257049,
+    "descripcion": "FANTA NARANJA PET500x12 RF",
+    "stock_total": 376.58,
+    "estado": "OK",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257047,
+    "descripcion": "FANTA NARANJA VR 1.5LX8 RF",
+    "stock_total": 23.88,
+    "estado": "CRÍTICO",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257050,
+    "descripcion": "FANTA NARANJA PET 2.25X06 RF",
+    "stock_total": 53.33,
+    "estado": "OK",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257051,
+    "descripcion": "FANTA NARANJA PET 3LX4RF",
+    "stock_total": 324.75,
+    "estado": "OK",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257069,
+    "descripcion": "FANTA NARANJA VR 296x24 RF",
+    "stock_total": 142.58,
+    "estado": "OK",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257062,
+    "descripcion": "FANTA NARANJA VR 192 x24 RF",
+    "stock_total": 15.83,
+    "estado": "CRÍTICO",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257072,
+    "descripcion": "POWERADE SOUR MANZANA VERDE PET 600ML X6",
+    "stock_total": 151.0,
+    "estado": "OK",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 251401,
+    "descripcion": "COCA COLA ZERO PET2250X06",
+    "stock_total": 0.5,
+    "estado": "CRÍTICO",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 257080,
+    "descripcion": "FANTA KOLA INGLESA PET 300MLX12",
+    "stock_total": 24.5,
+    "estado": "CRÍTICO",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257079,
+    "descripcion": "FANTA NARANJA PET 300X12 RF",
+    "stock_total": 310.83,
+    "estado": "OK",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257087,
+    "descripcion": "SAN LUIS SIN GAS BID NO RET PET 7LTX1 - TR",
+    "stock_total": 131.0,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 257097,
+    "descripcion": "POWERADE MORA PET 1LX6 RF HF",
+    "stock_total": 86.17,
+    "estado": "OK",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 257088,
+    "descripcion": "POWERADE FRUTAS PET 600MLX6 HF",
+    "stock_total": 457.33,
+    "estado": "OK",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 257096,
+    "descripcion": "POWERADE MORA PET 600MLX6 HF",
+    "stock_total": 362.17,
+    "estado": "OK",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 257104,
+    "descripcion": "INCA KOLA VR 625MLX12 - TP ROSCA-V2",
+    "stock_total": 116.5,
+    "estado": "OK",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 256660,
+    "descripcion": "COCA COLA PET 2.5 LX6 RF.",
+    "stock_total": 1014.17,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 250416,
+    "descripcion": "COCA COLA 192 VRE x24",
+    "stock_total": 120.0,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 256759,
+    "descripcion": "COCA COLA PET 600MLX12 RF",
+    "stock_total": 1691.33,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 256499,
+    "descripcion": "COCA COLA PET 300MLX6-CRCG ET/PR",
+    "stock_total": 362.33,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 252566,
+    "descripcion": "COCA COLA 400 VR x20",
+    "stock_total": 16.2,
+    "estado": "CRÍTICO",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 250681,
+    "descripcion": "COCA COLA VR1500x08",
+    "stock_total": 280.63,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 254705,
+    "descripcion": "FANTA KOLA INGLESA PET 2250x06",
+    "stock_total": 19.0,
+    "estado": "CRÍTICO",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 254700,
+    "descripcion": "FANTA KOLA INGLESA PET 500x12",
+    "stock_total": 82.58,
+    "estado": "OK",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 256725,
+    "descripcion": "FANTA KOLA INGLESA VR 1.5LX8",
+    "stock_total": 6.0,
+    "estado": "CRÍTICO",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 252348,
+    "descripcion": "SAN LUIS SPORT SIN GAS PFM 1000",
+    "stock_total": 817.83,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 252323,
+    "descripcion": "SAN LUIS CON GAS PET625x15",
+    "stock_total": 90.6,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 256905,
+    "descripcion": "SPRITE PET 2.25 X06 RF",
+    "stock_total": 128.67,
+    "estado": "OK",
+    "familia": "SPRITE"
+  },
+  {
+    "sap": 257075,
+    "descripcion": "SAN LUIS EXPRIM ARANDANO PET 625MLX15",
+    "stock_total": 16.53,
+    "estado": "CRÍTICO",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 256783,
+    "descripcion": "SAN LUIS SIN GAS PET 750 MLX15 ET",
+    "stock_total": 885.87,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 251604,
+    "descripcion": "SAN LUIS S/G PNR 1.5 LTX6",
+    "stock_total": 528.33,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 256575,
+    "descripcion": "SAN LUIS S/G PFM 1.0 X6 TAPA PLANA",
+    "stock_total": 109.83,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 251291,
+    "descripcion": "SAN LUIS 20 L REF PET",
+    "stock_total": 31.0,
+    "estado": "CRÍTICO",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 254780,
+    "descripcion": "SAN LUIS SIN GAS 500ML PET X12",
+    "stock_total": 427.08,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 250736,
+    "descripcion": "SAN LUIS SIN GAS B&B 20x01",
+    "stock_total": 889.0,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 257095,
+    "descripcion": "POWERADE MULTIFRUTAS PET 1LX06 HF",
+    "stock_total": 139.67,
+    "estado": "OK",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 257112,
+    "descripcion": "SAN LUIS SIN GAS PET 3LX06",
+    "stock_total": 818.33,
+    "estado": "OK",
+    "familia": "SAN LUIS"
+  },
+  {
+    "sap": 257115,
+    "descripcion": "POWERADE FRUTAS CITRICAS PET 600MLX06",
+    "stock_total": 0.67,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 257126,
+    "descripcion": "FANTA UVA PET 500X12",
+    "stock_total": 4.42,
+    "estado": "CRÍTICO",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257125,
+    "descripcion": "FANTA UVA PET 300X12",
+    "stock_total": 16.0,
+    "estado": "CRÍTICO",
+    "familia": "FANTA"
+  },
+  {
+    "sap": 257121,
+    "descripcion": "FLASHLYTE FRESA PET 625MLX06 RC-1",
+    "stock_total": 26.0,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 257122,
+    "descripcion": "FLASHLYTE SANDIA PET 625MLX06",
+    "stock_total": 12.0,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 257118,
+    "descripcion": "FLASHLYTE UVA PET 625MLX06 RC-1",
+    "stock_total": 26.5,
+    "estado": "CRÍTICO",
+    "familia": "ENERGIZANTE"
+  },
+  {
+    "sap": 257154,
+    "descripcion": "COCA COLA SIN AZUCAR PET 600MLX06",
+    "stock_total": 250.33,
+    "estado": "OK",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 751923,
+    "descripcion": "COCA-COLA LATA 350MLX06-PROMOCION",
+    "stock_total": 35.0,
+    "estado": "CRÍTICO",
+    "familia": "COCA COLA"
+  },
+  {
+    "sap": 257157,
+    "descripcion": "INCA KOLA SIN AZUCAR PET 600MLX06",
+    "stock_total": 0.0,
+    "estado": "AGOTADO",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 752088,
+    "descripcion": "PACK VASO INCA KOLAX01",
+    "stock_total": 0.0,
+    "estado": "AGOTADO",
+    "familia": "INCA KOLA"
+  },
+  {
+    "sap": 751595,
+    "descripcion": "HEINEKEN BNR 330 MLX06 HNS",
+    "stock_total": 278.0,
+    "estado": "OK",
+    "familia": "CERVEZA"
+  },
+  {
+    "sap": 751598,
+    "descripcion": "TRES CRUCES LAG LATA 473MLX06",
+    "stock_total": 195.5,
+    "estado": "OK",
+    "familia": "CERVEZA"
+  },
+  {
+    "sap": 751641,
+    "descripcion": "HEINEKEN LATA 310 MLx6",
+    "stock_total": 201.33,
+    "estado": "OK",
+    "familia": "CERVEZA"
+  },
+  {
+    "sap": 751645,
+    "descripcion": "HEINEKEN RGB 600 MLX12",
+    "stock_total": 92.58,
+    "estado": "OK",
+    "familia": "CERVEZA"
+  },
+  {
+    "sap": 751681,
+    "descripcion": "TRES CRUCES LAGER RGB 640MLX12",
+    "stock_total": 18.0,
+    "estado": "CRÍTICO",
+    "familia": "CERVEZA"
+  },
+  {
+    "sap": 751973,
+    "descripcion": "PORTON MOSTO VERDE ITALIA BOT 750ML X01 - TR",
+    "stock_total": 23.0,
+    "estado": "CRÍTICO",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751975,
+    "descripcion": "PORTON MOSTO VERDE QUEBRANTA BOT 750ML X01 - TR",
+    "stock_total": 22.0,
+    "estado": "CRÍTICO",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751974,
+    "descripcion": "TORO SANTO PURO QUEBRANTA BOT 4L X01 - TR",
+    "stock_total": 8.0,
+    "estado": "CRÍTICO",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751977,
+    "descripcion": "TORO SANTO PURO QUEBRANTA BOT 500ML X01 - TR",
+    "stock_total": 342.0,
+    "estado": "OK",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751969,
+    "descripcion": "LA CARAVEDO PURO ACHOLADO BOT 750ML X01 - TR",
+    "stock_total": 25.0,
+    "estado": "CRÍTICO",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751970,
+    "descripcion": "LA CARAVEDO PURO QUEBRANTA BOT 4L X01 - TR",
+    "stock_total": 8.0,
+    "estado": "CRÍTICO",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751971,
+    "descripcion": "LA CARAVEDO PURO QUEBRANTA BOT 750ML X01 - TR",
+    "stock_total": 19.0,
+    "estado": "CRÍTICO",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751972,
+    "descripcion": "PORTON MOSTO VERDE ACHOLADO BOT 750ML X01 - TR",
+    "stock_total": 18.0,
+    "estado": "CRÍTICO",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751809,
+    "descripcion": "SMIRNOFF NO.21 RED 700MLX01",
+    "stock_total": 67.0,
+    "estado": "OK",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751802,
+    "descripcion": "JOHNNIE WALKER RED LABEL 750MLX01",
+    "stock_total": 92.0,
+    "estado": "OK",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751812,
+    "descripcion": "SMIRNOFF GREEN APPLE 700MLX01",
+    "stock_total": 123.0,
+    "estado": "OK",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751811,
+    "descripcion": "SMIRNOFF RASPBERRY 700MLX01",
+    "stock_total": 54.0,
+    "estado": "OK",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751814,
+    "descripcion": "SMIRNOFF WATERMELON 700MLX01",
+    "stock_total": 55.0,
+    "estado": "OK",
+    "familia": "LICORES"
+  },
+  {
+    "sap": 751804,
+    "descripcion": "TANQUERAY FLOR DE SEVILLA 700MLX01",
+    "stock_total": 9.0,
+    "estado": "CRÍTICO",
+    "familia": "LICORES"
+  }
+]
