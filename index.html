@@ -1,393 +1,482 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#174a78">
-<title>Stock CDA Chala</title><style>
-*{box-sizing:border-box}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock CDA Chala</title>
 
-body{
- margin:0;
- font-family:Arial,Helvetica,sans-serif;
- background:#f3f6fa;
- color:#10243e;
+<style>
+* {
+    box-sizing: border-box;
 }
 
-.header{
- background:#174a78;
- color:#fff;
- padding:20px 16px;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
 }
 
-.header h1{
- margin:0;
- font-size:28px;
+header {
+    background: #d40000;
+    color: white;
+    padding: 20px;
+    text-align: center;
 }
 
-.header p{
- margin:6px 0 0;
- font-size:14px;
- opacity:.9;
+header h1 {
+    margin: 0;
+    font-size: 28px;
 }
 
-.container{
- max-width:1180px;
- margin:auto;
- padding:16px;
+header p {
+    margin: 6px 0 0;
+    font-size: 14px;
 }
 
-.search{
- width:100%;
- padding:14px 16px;
- border:1px solid #ccd6e0;
- border-radius:10px;
- font-size:16px;
- margin-bottom:15px;
- outline:none;
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
 }
 
-.search:focus{
- border-color:#174a78;
- box-shadow:0 0 0 2px rgba(23,74,120,.12);
+.filtros {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
-.stats{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:10px;
- margin-bottom:15px;
+input, select {
+    padding: 13px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    background: white;
 }
 
-.card{
- background:#fff;
- border-radius:10px;
- padding:12px;
- box-shadow:0 2px 8px rgba(0,0,0,.06);
- text-align:center;
+input {
+    flex: 1;
+    min-width: 240px;
 }
 
-.card b{
- display:block;
- font-size:22px;
- margin-bottom:4px;
+select {
+    min-width: 220px;
 }
 
-.card span{
- font-size:11px;
- color:#64748b;
+.resumen {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-.table-box{
- background:#fff;
- border-radius:12px;
- overflow:hidden;
- box-shadow:0 2px 10px rgba(0,0,0,.07);
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
 }
 
-table{
- width:100%;
- border-collapse:collapse;
- table-layout:fixed;
+.card strong {
+    display: block;
+    font-size: 25px;
+    margin-top: 5px;
 }
 
-th{
- background:#174a78;
- color:#fff;
- padding:11px 8px;
- font-size:12px;
- text-align:left;
+.tabla-contenedor {
+    background: white;
+    border-radius: 10px;
+    overflow-x: auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
 }
 
-td{
- padding:11px 8px;
- border-bottom:1px solid #edf1f5;
- font-size:13px;
- word-wrap:break-word;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-th:nth-child(1),td:nth-child(1){width:22%}
-th:nth-child(2),td:nth-child(2){width:43%}
-th:nth-child(3),td:nth-child(3){width:18%;text-align:center}
-th:nth-child(4),td:nth-child(4){width:17%;text-align:center}
-
-.badge{
- display:inline-block;
- padding:5px 7px;
- border-radius:20px;
- font-size:11px;
- font-weight:bold;
+th {
+    background: #222;
+    color: white;
+    padding: 12px;
+    text-align: left;
 }
 
-.verde{background:#dcfce7;color:#166534}
-.amarillo{background:#fef3c7;color:#92400e}
-.anaranjado{background:#ffedd5;color:#9a3412}
-.rojo{background:#fee2e2;color:#991b1b}
-
-.empty{
- padding:35px 15px;
- text-align:center;
- color:#64748b;
+td {
+    padding: 11px;
+    border-bottom: 1px solid #eee;
 }
 
-@media(max-width:600px){
-
- .header{
-  padding:16px;
- }
-
- .header h1{
-  font-size:23px;
- }
-
- .container{
-  padding:10px;
- }
-
- .stats{
-  grid-template-columns:repeat(4,1fr);
-  gap:6px;
- }
-
- .card{
-  padding:9px 4px;
- }
-
- .card b{
-  font-size:17px;
- }
-
- .card span{
-  font-size:9px;
- }
-
- th{
-  padding:9px 5px;
-  font-size:10px;
- }
-
- td{
-  padding:9px 5px;
-  font-size:11px;
- }
-
- th:nth-child(1),td:nth-child(1){width:25%}
- th:nth-child(2),td:nth-child(2){width:39%}
- th:nth-child(3),td:nth-child(3){width:18%}
- th:nth-child(4),td:nth-child(4){width:18%}
-}
-</style></head><body><div class="header">
- <h1>Stock CDA Chala</h1>
- <p>Consulta de stock para vendedores</p>
-</div><div class="container"><input
-id="busqueda"
-class="search"
-type="search"
-placeholder="🔎 Buscar por SAP o producto..."
-
-«»
-
- <div class="stats">
-  <div class="card">
-   <b id="total">0</b>
-   <span>PRODUCTOS</span>
-  </div>  <div class="card">
-   <b id="ok">0</b>
-   <span>OK</span>
-  </div>  <div class="card">
-   <b id="criticos">0</b>
-   <span>CRÍTICOS</span>
-  </div>  <div class="card">
-   <b id="agotados">0</b>
-   <span>AGOTADOS</span>
-  </div>
- </div> <div class="table-box">  <table>
-   <thead>
-    <tr>
-     <th>SAP</th>
-     <th>PRODUCTO</th>
-     <th>STOCK</th>
-     <th>ESTADO</th>
-    </tr>
-   </thead>   <tbody id="tabla"></tbody>  </table>  <div id="vacio" class="empty">
-   Cargando información...
-  </div> </div></div><script>
-
-let productos=[];
-
-function normalizar(texto){
- return String(texto ?? "")
-  .normalize("NFD")
-  .replace(/[\u0300-\u036f]/g,"")
-  .toLowerCase()
-  .trim();
+.estado {
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 5px 9px;
+    display: inline-block;
 }
 
-function obtenerStock(p){
- let valor=p.stock_total;
-
- if(valor===undefined) valor=p.STOCK_TOTAL;
- if(valor===undefined) valor=p.stock;
- if(valor===undefined) valor=p.STOCK;
-
- let numero=Number(valor);
-
- return Number.isFinite(numero) ? numero : 0;
+.ok {
+    background: #d9f7df;
+    color: #137333;
 }
 
-function obtenerSAP(p){
- return p.sap ?? p.SAP ?? p.codigo_sap ?? p.CODIGO_SAP ?? "";
+.critico {
+    background: #fff0cc;
+    color: #a15c00;
 }
 
-function obtenerProducto(p){
- return p.descripcion ?? p.DESCRIPCION ?? p.producto ?? p.PRODUCTO ?? "";
+.agotado {
+    background: #ffd9d9;
+    color: #b00020;
 }
 
-function calcularEstado(stock){
+.familia {
+    font-weight: bold;
+    color: #555;
+}
 
- if(stock<=5) return {
-  texto:"AGOTADO",
-  clase:"rojo"
- };
+.mensaje {
+    text-align: center;
+    padding: 25px;
+    color: #777;
+}
 
- if(stock<=15) return {
-  texto:"CRÍTICO",
-  clase:"anaranjado"
- };
+@media (max-width: 700px) {
 
- if(stock<=50) return {
-  texto:"BAJO",
-  clase:"amarillo"
- };
+    header h1 {
+        font-size: 23px;
+    }
 
- return {
-  texto:"OK",
-  clase:"verde"
- };
+    .container {
+        padding: 12px;
+    }
+
+    .resumen {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    input, select {
+        width: 100%;
+    }
+
+    th, td {
+        font-size: 13px;
+        padding: 9px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Stock CDA Chala</h1>
+    <p>Consulta de stock en tiempo real</p>
+</header>
+
+<div class="container">
+
+    <div class="filtros">
+
+        <input
+            type="text"
+            id="buscador"
+            placeholder="🔎 Buscar por SAP o producto..."
+        >
+
+        <select id="filtroFamilia">
+            <option value="TODAS">📦 Todas las familias</option>
+        </select>
+
+    </div>
+
+    <div class="resumen">
+
+        <div class="card">
+            PRODUCTOS
+            <strong id="total">0</strong>
+        </div>
+
+        <div class="card">
+            OK
+            <strong id="ok">0</strong>
+        </div>
+
+        <div class="card">
+            CRÍTICOS
+            <strong id="criticos">0</strong>
+        </div>
+
+        <div class="card">
+            AGOTADOS
+            <strong id="agotados">0</strong>
+        </div>
+
+    </div>
+
+    <div class="tabla-contenedor">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>SAP</th>
+                    <th>PRODUCTO</th>
+                    <th>FAMILIA</th>
+                    <th>STOCK</th>
+                    <th>ESTADO</th>
+                </tr>
+            </thead>
+
+            <tbody id="tablaStock"></tbody>
+
+        </table>
+
+        <div id="mensaje" class="mensaje">
+            Cargando stock...
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let productos = [];
+
+const buscador = document.getElementById("buscador");
+const filtroFamilia = document.getElementById("filtroFamilia");
+const tablaStock = document.getElementById("tablaStock");
+const mensaje = document.getElementById("mensaje");
+
+async function cargarStock() {
+
+    try {
+
+        const respuesta = await fetch(
+            "datos.json?v=" + Date.now(),
+            { cache: "no-store" }
+        );
+
+        if (!respuesta.ok) {
+            throw new Error("No se pudo cargar datos.json");
+        }
+
+        const datos = await respuesta.json();
+
+        productos = Array.isArray(datos)
+            ? datos
+            : (datos.rows || []);
+
+        crearFamilias();
+
+        mostrarProductos();
+
+    } catch (error) {
+
+        mensaje.textContent =
+            "Error al cargar el stock.";
+
+        console.error(error);
+
+    }
+}
+
+function crearFamilias() {
+
+    const familias = [
+        ...new Set(
+            productos
+            .map(p => p.familia || "")
+            .filter(f => f !== "")
+        )
+    ].sort();
+
+    filtroFamilia.innerHTML =
+        '<option value="TODAS">📦 Todas las familias</option>';
+
+    familias.forEach(familia => {
+
+        const opcion = document.createElement("option");
+
+        opcion.value = familia;
+        opcion.textContent = familia;
+
+        filtroFamilia.appendChild(opcion);
+
+    });
+}
+
+function mostrarProductos() {
+
+    const texto =
+        buscador.value
+        .toLowerCase()
+        .trim();
+
+    const familiaSeleccionada =
+        filtroFamilia.value;
+
+    const filtrados = productos.filter(p => {
+
+        const sap =
+            String(
+                p.sap ??
+                p.SAP ??
+                p.codigo_sap ??
+                p.CODIGO_SAP ??
+                ""
+            );
+
+        const descripcion =
+            String(
+                p.descripcion ??
+                p.DESCRIPCION ??
+                p.producto ??
+                p.PRODUCTO ??
+                ""
+            );
+
+        const familia =
+            String(p.familia ?? "");
+
+        const coincideTexto =
+            sap.toLowerCase().includes(texto) ||
+            descripcion.toLowerCase().includes(texto);
+
+        const coincideFamilia =
+            familiaSeleccionada === "TODAS" ||
+            familia === familiaSeleccionada;
+
+        return coincideTexto && coincideFamilia;
+
+    });
+
+    actualizarResumen(filtrados);
+
+    tablaStock.innerHTML = "";
+
+    if (filtrados.length === 0) {
+
+        mensaje.style.display = "block";
+        mensaje.textContent = "No se encontraron productos.";
+
+        return;
+
+    }
+
+    mensaje.style.display = "none";
+
+    filtrados.forEach(p => {
+
+        const sap =
+            p.sap ??
+            p.SAP ??
+            p.codigo_sap ??
+            p.CODIGO_SAP ??
+            "";
+
+        const descripcion =
+            p.descripcion ??
+            p.DESCRIPCION ??
+            p.producto ??
+            p.PRODUCTO ??
+            "";
+
+        const stock =
+            p.stock_total ??
+            p.STOCK_TOTAL ??
+            p.stock ??
+            p.STOCK ??
+            0;
+
+        const estado =
+            p.estado ??
+            p.ESTADO ??
+            "";
+
+        const familia =
+            p.familia ??
+            "";
+
+        let claseEstado = "";
+
+        if (estado === "OK") {
+            claseEstado = "ok";
+        }
+        else if (estado === "CRÍTICO") {
+            claseEstado = "critico";
+        }
+        else if (estado === "AGOTADO") {
+            claseEstado = "agotado";
+        }
+
+        const fila = document.createElement("tr");
+
+        fila.innerHTML = `
+            <td>${sap}</td>
+
+            <td>${descripcion}</td>
+
+            <td class="familia">
+                ${familia}
+            </td>
+
+            <td>
+                ${Number(stock).toLocaleString("es-PE", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}
+            </td>
+
+            <td>
+                <span class="estado ${claseEstado}">
+                    ${estado}
+                </span>
+            </td>
+        `;
+
+        tablaStock.appendChild(fila);
+
+    });
 
 }
 
-function mostrar(){
+function actualizarResumen(lista) {
 
- const texto=normalizar(
-  document.getElementById("busqueda").value
- );
+    document.getElementById("total").textContent =
+        lista.length;
 
- const filtrados=productos.filter(p=>{
+    document.getElementById("ok").textContent =
+        lista.filter(p =>
+            (p.estado ?? p.ESTADO) === "OK"
+        ).length;
 
-  const sap=normalizar(obtenerSAP(p));
-  const producto=normalizar(obtenerProducto(p));
+    document.getElementById("criticos").textContent =
+        lista.filter(p =>
+            (p.estado ?? p.ESTADO) === "CRÍTICO"
+        ).length;
 
-  return sap.includes(texto) || producto.includes(texto);
-
- });
-
- document.getElementById("total").textContent=filtrados.length;
-
- let ok=0;
- let criticos=0;
- let agotados=0;
-
- filtrados.forEach(p=>{
-
-  const stock=obtenerStock(p);
-
-  if(stock>50) ok++;
-  else if(stock>5) criticos++;
-  else agotados++;
-
- });
-
- document.getElementById("ok").textContent=ok;
- document.getElementById("criticos").textContent=criticos;
- document.getElementById("agotados").textContent=agotados;
-
- const tabla=document.getElementById("tabla");
- const vacio=document.getElementById("vacio");
-
- tabla.innerHTML="";
-
- if(filtrados.length===0){
-
-  vacio.style.display="block";
-  vacio.textContent="No se encontraron productos";
-
-  return;
-
- }
-
- vacio.style.display="none";
-
- filtrados.forEach(p=>{
-
-  const sap=obtenerSAP(p);
-  const producto=obtenerProducto(p);
-  const stock=obtenerStock(p);
-  const estado=calcularEstado(stock);
-
-  const fila=document.createElement("tr");
-
-  fila.innerHTML=`
-   <td>${sap}</td>
-   <td>${producto}</td>
-   <td><strong>${stock.toFixed(2)}</strong></td>
-   <td>
-    <span class="badge ${estado.clase}">
-     ${estado.texto}
-    </span>
-   </td>
-  `;
-
-  tabla.appendChild(fila);
-
- });
-
+    document.getElementById("agotados").textContent =
+        lista.filter(p =>
+            (p.estado ?? p.ESTADO) === "AGOTADO"
+        ).length;
 }
 
-async function cargarDatos(){
+buscador.addEventListener(
+    "input",
+    mostrarProductos
+);
 
- try{
+filtroFamilia.addEventListener(
+    "change",
+    mostrarProductos
+);
 
-  const respuesta=await fetch(
-   "datos.json?v="+Date.now(),
-   {cache:"no-store"}
-  );
+cargarStock();
 
-  if(!respuesta.ok){
-   throw new Error("No se pudo cargar datos.json");
-  }
+</script>
 
-  const datos=await respuesta.json();
-
-  productos=Array.isArray(datos)
-   ? datos
-   : (Array.isArray(datos.rows) ? datos.rows : []);
-
-  mostrar();
-
- }catch(error){
-
-  console.error(error);
-
-  document.getElementById("total").textContent="0";
-
-  document.getElementById("tabla").innerHTML="";
-
-  document.getElementById("vacio").style.display="block";
-
-  document.getElementById("vacio").textContent=
-   "Error al cargar los datos";
-
- }
-
-}
-
-document
- .getElementById("busqueda")
- .addEventListener("input",mostrar);
-
-cargarDatos();
-
-</script></body>
+</body>
 </html>
