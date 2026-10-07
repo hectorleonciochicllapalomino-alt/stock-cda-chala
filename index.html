@@ -5,1044 +5,389 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#174a78">
-<title>Stock Chala | Consulta de vendedores</title><style>
+<title>Stock CDA Chala</title><style>
 *{box-sizing:border-box}
 
 body{
  margin:0;
  font-family:Arial,Helvetica,sans-serif;
  background:#f3f6fa;
- color:#10243e
+ color:#10243e;
 }
 
 .header{
  background:#174a78;
  color:#fff;
- padding:20px max(16px,calc((100% - 1180px)/2))
+ padding:20px 16px;
 }
 
 .header h1{
  margin:0;
- font-size:30px
+ font-size:28px;
 }
 
 .header p{
  margin:6px 0 0;
  font-size:14px;
- opacity:.9
+ opacity:.9;
 }
 
-.card{
+.container{
  max-width:1180px;
- margin:18px auto;
- background:#fff;
- border:1px solid #dbe3ec;
- border-radius:16px;
- overflow:hidden;
- box-shadow:0 8px 24px rgba(20,50,80,.06)
+ margin:auto;
+ padding:16px;
 }
 
-.top{
- padding:20px
+.search{
+ width:100%;
+ padding:14px 16px;
+ border:1px solid #ccd6e0;
+ border-radius:10px;
+ font-size:16px;
+ margin-bottom:15px;
+ outline:none;
 }
 
-.title{
- display:flex;
- justify-content:space-between;
- gap:16px;
- align-items:center
-}
-
-.title h2{
- margin:0;
- font-size:23px
-}
-
-.meta{
- margin-top:6px;
- color:#54708c;
- font-size:12px
-}
-
-.ok{
- color:#287d50;
- font-size:12px
-}
-
-.ok:before{
- content:'●';
- margin-right:6px
+.search:focus{
+ border-color:#174a78;
+ box-shadow:0 0 0 2px rgba(23,74,120,.12);
 }
 
 .stats{
  display:grid;
  grid-template-columns:repeat(4,1fr);
  gap:10px;
- margin-top:15px
+ margin-bottom:15px;
 }
 
-.stat{
- border:1px solid #dbe3ec;
+.card{
+ background:#fff;
  border-radius:10px;
  padding:12px;
- background:#fafcfe
+ box-shadow:0 2px 8px rgba(0,0,0,.06);
+ text-align:center;
 }
 
-.stat b{
+.card b{
  display:block;
- font-size:20px
+ font-size:22px;
+ margin-bottom:4px;
 }
 
-.stat span{
+.card span{
  font-size:11px;
- color:#54708c
+ color:#64748b;
 }
 
-.filter{
- margin-top:16px
-}
-
-.field label{
- display:block;
- font-size:11px;
- font-weight:700;
- margin-bottom:5px;
- color:#3e5870
-}
-
-.field select{
- width:100%;
- height:40px;
- border:1px solid #cbd7e3;
- border-radius:9px;
- padding:0 11px;
- font-size:13px;
- background:#fff
-}
-
-.search{
- display:flex;
- gap:8px;
- margin-top:10px
-}
-
-.search input{
- flex:1;
- height:40px;
- border:1px solid #cbd7e3;
- border-radius:9px;
- padding:0 11px;
- font-size:13px
-}
-
-.btn{
- border:0;
- border-radius:9px;
- background:#174a78;
- color:#fff;
- padding:0 16px;
- font-weight:700;
- cursor:pointer
-}
-
-.section{
- border-top:1px solid #dbe3ec
-}
-
-.section-title{
- padding:14px 20px 8px;
- font-size:13px;
- font-weight:700;
- color:#345b7e;
- text-transform:uppercase
-}
-
-.count{
- padding:0 20px 10px;
- color:#54708c;
- font-size:12px
-}
-
-.table-wrap{
- width:100%;
- overflow:hidden
+.table-box{
+ background:#fff;
+ border-radius:12px;
+ overflow:hidden;
+ box-shadow:0 2px 10px rgba(0,0,0,.07);
 }
 
 table{
  width:100%;
  border-collapse:collapse;
- table-layout:fixed
-}
-
-th,td{
- padding:11px 10px;
- border-top:1px solid #dbe3ec;
- text-align:left;
- font-size:13px;
- overflow:hidden
+ table-layout:fixed;
 }
 
 th{
- background:#f7f9fb;
- color:#345b7e;
- font-size:10px;
- letter-spacing:.04em;
- position:sticky;
- top:0
-}
-
-.num{
- text-align:right;
- white-space:nowrap
-}
-
-.stock{
- font-weight:700
-}
-
-.sem{
- display:inline-block;
- width:11px;
- height:11px;
- border-radius:50%;
- margin-left:5px;
- vertical-align:-1px;
- border:1px solid rgba(0,0,0,.12)
-}
-
-.verde{
- background:#22a447
-}
-
-.amarillo{
- background:#f2c300
-}
-
-.anaranjado{
- background:#f28c28
-}
-
-.rojo{
- background:#df3030
-}
-
-.badge{
- font-size:10px;
- font-weight:700;
- padding:4px 7px;
- border-radius:999px;
- white-space:nowrap
-}
-
-.badge.ok{
- background:#e8f7ed;
- color:#217541
-}
-
-.badge.crit{
- background:#fff4cf;
- color:#8a6800
-}
-
-.badge.agot{
- background:#fdeaea;
- color:#a32020
-}
-
-.footer{
- padding:12px 20px;
- color:#71869a;
- font-size:11px;
- border-top:1px solid #dbe3ec
-}
-
-.modal{
- position:fixed;
- inset:0;
- background:rgba(10,28,48,.62);
- display:flex;
- align-items:center;
- justify-content:center;
- padding:16px;
- z-index:5
-}
-
-.modalbox{
- width:min(520px,100%);
- background:#fff;
- border-radius:16px;
- padding:25px;
- box-shadow:0 18px 60px rgba(0,0,0,.25)
-}
-
-.modalbox h2{
- margin:0 0 8px;
- color:#174a78
-}
-
-.modalbox p{
- color:#425d74;
- line-height:1.5
-}
-
-.enter{
- width:100%;
- height:42px;
- border:0;
- border-radius:9px;
  background:#174a78;
  color:#fff;
- font-weight:700
+ padding:11px 8px;
+ font-size:12px;
+ text-align:left;
 }
 
-.hidden{
- display:none!important
+td{
+ padding:11px 8px;
+ border-bottom:1px solid #edf1f5;
+ font-size:13px;
+ word-wrap:break-word;
 }
 
+th:nth-child(1),td:nth-child(1){width:22%}
+th:nth-child(2),td:nth-child(2){width:43%}
+th:nth-child(3),td:nth-child(3){width:18%;text-align:center}
+th:nth-child(4),td:nth-child(4){width:17%;text-align:center}
 
-/* =========================
-   CELULAR
-========================= */
+.badge{
+ display:inline-block;
+ padding:5px 7px;
+ border-radius:20px;
+ font-size:11px;
+ font-weight:bold;
+}
 
-@media(max-width:700px){
+.verde{background:#dcfce7;color:#166534}
+.amarillo{background:#fef3c7;color:#92400e}
+.anaranjado{background:#ffedd5;color:#9a3412}
+.rojo{background:#fee2e2;color:#991b1b}
+
+.empty{
+ padding:35px 15px;
+ text-align:center;
+ color:#64748b;
+}
+
+@media(max-width:600px){
 
  .header{
-  padding:13px 10px
+  padding:16px;
  }
 
  .header h1{
-  font-size:20px
+  font-size:23px;
  }
 
- .header p{
-  font-size:10px
- }
-
- .card{
-  width:calc(100% - 8px);
-  margin:5px auto;
-  border-radius:10px
- }
-
- .top{
-  padding:10px
- }
-
- .title{
-  align-items:flex-start;
-  flex-direction:column;
-  gap:3px
- }
-
- .title h2{
-  font-size:17px
- }
-
- .meta{
-  font-size:10px
- }
-
- .ok{
-  font-size:10px
+ .container{
+  padding:10px;
  }
 
  .stats{
   grid-template-columns:repeat(4,1fr);
-  gap:4px;
-  margin-top:10px
+  gap:6px;
  }
 
- .stat{
-  padding:7px 3px;
-  text-align:center
+ .card{
+  padding:9px 4px;
  }
 
- .stat b{
-  font-size:15px
+ .card b{
+  font-size:17px;
  }
 
- .stat span{
-  font-size:7px
- }
-
- .filter{
-  margin-top:10px
- }
-
- .field label{
-  font-size:9px
- }
-
- .field select{
-  height:34px;
-  font-size:11px;
-  padding:0 7px
- }
-
- .search{
-  gap:5px;
-  margin-top:7px
- }
-
- .search input{
-  height:34px;
-  min-width:0;
-  font-size:11px;
-  padding:0 8px
- }
-
- .btn{
-  height:34px;
-  padding:0 8px;
-  font-size:9px
- }
-
- .section-title{
-  padding:9px 8px 5px;
-  font-size:10px
- }
-
- .count{
-  padding:0 8px 6px;
-  font-size:9px
- }
-
- /*
-  Las 5 columnas permanecen visibles:
-  BASIS | SAP | PRODUCTO | STOCK | ESTADO
- */
-
- table{
-  width:100%;
-  table-layout:fixed
- }
-
- th,td{
-  padding:7px 3px;
+ .card span{
   font-size:9px;
-  line-height:1.15
  }
 
  th{
-  font-size:7px;
-  letter-spacing:0
+  padding:9px 5px;
+  font-size:10px;
  }
 
- th:nth-child(1),
- td:nth-child(1){
-  width:14%
+ td{
+  padding:9px 5px;
+  font-size:11px;
  }
 
- th:nth-child(2),
- td:nth-child(2){
-  width:14%
- }
-
- th:nth-child(3),
- td:nth-child(3){
-  width:34%
- }
-
- th:nth-child(4),
- td:nth-child(4){
-  width:18%
- }
-
- th:nth-child(5),
- td:nth-child(5){
-  width:20%
- }
-
- td:nth-child(1),
- td:nth-child(2){
-  font-size:8px;
-  word-break:break-all
- }
-
- td:nth-child(3){
-  font-weight:600;
-  word-break:break-word
- }
-
- td:nth-child(4){
-  text-align:center
- }
-
- td:nth-child(5){
-  text-align:center
- }
-
- .stock{
-  font-size:10px
- }
-
- .sem{
-  width:8px;
-  height:8px;
-  margin-left:2px
- }
-
- .badge{
-  font-size:7px;
-  padding:3px 3px
- }
-
- .footer{
-  padding:7px 8px;
-  font-size:8px
- }
-
+ th:nth-child(1),td:nth-child(1){width:25%}
+ th:nth-child(2),td:nth-child(2){width:39%}
+ th:nth-child(3),td:nth-child(3){width:18%}
+ th:nth-child(4),td:nth-child(4){width:18%}
 }
-
-
-/* =========================
-   CELULARES MUY PEQUEÑOS
-========================= */
-
-@media(max-width:380px){
-
- .header h1{
-  font-size:18px
- }
-
- .stats{
-  gap:3px
- }
-
- .stat{
-  padding:6px 2px
- }
-
- .stat b{
-  font-size:14px
- }
-
- th,td{
-  padding:6px 2px;
-  font-size:8px
- }
-
- th{
-  font-size:6px
- }
-
- td:nth-child(1),
- td:nth-child(2){
-  font-size:7px
- }
-
- .stock{
-  font-size:9px
- }
-
- .badge{
-  font-size:6px;
-  padding:2px
- }
-
- .sem{
-  width:7px;
-  height:7px
- }
-
-}
-</style></head><body><div id="welcome" class="modal"> <div class="modalbox">  <h2>Bienvenido a Stock Chala</h2>  <p>
-   Consulta el stock disponible desde tu celular.
-   Puedes buscar por BASIS, SAP o descripción
-   y filtrar por nivel de stock.
-  </p>  <button class="enter" onclick="cerrar()">
-   Ingresar
-  </button> </div></div><header class="header"> <h1>Stock CDA Chala</h1> <p>
-  Consulta de stock · Vendedores
- </p></header><main class="card"><section class="top"> <div class="title">  <div>   <h2>Stock de productos</h2>   <div id="meta" class="meta">
-    Cargando datos...
-   </div>  </div>  <div class="ok">
-   Datos cargados
-  </div> </div> <div class="stats">  <div class="stat">
-   <b id="total">0</b>
-   <span>PRODUCTOS</span>
-  </div>  <div class="stat">
-   <b id="ok">0</b>
-   <span>OK</span>
-  </div>  <div class="stat">
-   <b id="crit">0</b>
-   <span>CRÍTICOS</span>
-  </div>  <div class="stat">
-   <b id="agot">0</b>
-   <span>AGOTADOS</span>
-  </div> </div> <div class="filter">  <div class="field">   <label>
-    SEMÁFORO DE STOCK
-   </label>   <select id="semaforo"><option value="">
- Todos
-</option>
-
-<option value="verde">
- 🟢 Verde — mayor a 50
-</option>
-
-<option value="amarillo">
- 🟡 Amarillo — mayor a 15 y hasta 50
-</option>
-
-<option value="anaranjado">
- 🟠 Anaranjado — mayor a 5 y hasta 15
-</option>
-
-<option value="rojo">
- 🔴 Rojo — hasta 5
-</option>
-
-   </select>  </div> </div> <div class="search"><input
-id="q"
-placeholder="🔎 Buscar Inka Cola, Coca Cola..."
-autocomplete="off"
+</style></head><body><div class="header">
+ <h1>Stock CDA Chala</h1>
+ <p>Consulta de stock para vendedores</p>
+</div><div class="container"><input
+id="busqueda"
+class="search"
+type="search"
+placeholder="🔎 Buscar por SAP o producto..."
 
 «»
 
-  <button class="btn" onclick="cargar()">
-   ↻ Actualizar
-  </button> </div></section><section class="section"> <div class="section-title">
-  Stock disponible
- </div> <div id="count" class="count"></div> <div class="table-wrap">  <table>   <thead><tr>
- <th>BASIS</th>
- <th>SAP</th>
- <th>PRODUCTO</th>
- <th>STOCK</th>
- <th>ESTADO</th>
-</tr>
+ <div class="stats">
+  <div class="card">
+   <b id="total">0</b>
+   <span>PRODUCTOS</span>
+  </div>  <div class="card">
+   <b id="ok">0</b>
+   <span>OK</span>
+  </div>  <div class="card">
+   <b id="criticos">0</b>
+   <span>CRÍTICOS</span>
+  </div>  <div class="card">
+   <b id="agotados">0</b>
+   <span>AGOTADOS</span>
+  </div>
+ </div> <div class="table-box">  <table>
+   <thead>
+    <tr>
+     <th>SAP</th>
+     <th>PRODUCTO</th>
+     <th>STOCK</th>
+     <th>ESTADO</th>
+    </tr>
+   </thead>   <tbody id="tabla"></tbody>  </table>  <div id="vacio" class="empty">
+   Cargando información...
+  </div> </div></div><script>
 
-   </thead>   <tbody id="body"></tbody>  </table> </div></section><div class="footer">Fuente: hoja STOCK_APP / Saldo Actual.
-La aplicación es de consulta; la actualización del stock se realiza en el archivo fuente.
-
-</div></main><script>
-
-let data={
- rows:[]
-};
-
-const $=id=>document.getElementById(id);
-
-
-function cerrar(){
-
- $("welcome").classList.add("hidden");
-
-}
-
-
-function semaforo(r){
-
- const n=Number(
-  r.stock_total ??
-  r.STOCK_TOTAL ??
-  r.stock ??
-  0
- );
-
- if(n>50)return"verde";
-
- if(n>15)return"amarillo";
-
- if(n>5)return"anaranjado";
-
- return"rojo";
-
-}
-
-
-function estado(r){
-
- if(r.estado)return r.estado;
-
- if(r.ESTADO)return r.ESTADO;
-
- const n=Number(
-  r.stock_total ??
-  r.STOCK_TOTAL ??
-  r.stock ??
-  0
- );
-
- if(n<=0)return"AGOTADO";
-
- if(n<=15)return"CRÍTICO";
-
- return"OK";
-
-}
-
-
-function estadoBadge(e){
-
- if(e==="OK")return"ok";
-
- if(e==="CRÍTICO")return"crit";
-
- return"agot";
-
-}
-
-
-function fmt(n){
-
- return Number(n||0).toLocaleString(
-  "es-PE",
-  {
-   maximumFractionDigits:2
-  }
- );
-
-}
-
-
-function valor(r,campo1,campo2){
-
- return r[campo1] ??
-        r[campo2] ??
-        "";
-
-}
-
-
-/* 
-   Permite buscar sin preocuparse
-   por mayúsculas o tildes.
-*/
+let productos=[];
 
 function normalizar(texto){
-
  return String(texto ?? "")
-  .toLowerCase()
   .normalize("NFD")
   .replace(/[\u0300-\u036f]/g,"")
+  .toLowerCase()
   .trim();
+}
+
+function obtenerStock(p){
+ let valor=p.stock_total;
+
+ if(valor===undefined) valor=p.STOCK_TOTAL;
+ if(valor===undefined) valor=p.stock;
+ if(valor===undefined) valor=p.STOCK;
+
+ let numero=Number(valor);
+
+ return Number.isFinite(numero) ? numero : 0;
+}
+
+function obtenerSAP(p){
+ return p.sap ?? p.SAP ?? p.codigo_sap ?? p.CODIGO_SAP ?? "";
+}
+
+function obtenerProducto(p){
+ return p.descripcion ?? p.DESCRIPCION ?? p.producto ?? p.PRODUCTO ?? "";
+}
+
+function calcularEstado(stock){
+
+ if(stock<=5) return {
+  texto:"AGOTADO",
+  clase:"rojo"
+ };
+
+ if(stock<=15) return {
+  texto:"CRÍTICO",
+  clase:"anaranjado"
+ };
+
+ if(stock<=50) return {
+  texto:"BAJO",
+  clase:"amarillo"
+ };
+
+ return {
+  texto:"OK",
+  clase:"verde"
+ };
 
 }
 
+function mostrar(){
 
-function render(){
-
- const sem=$("semaforo").value;
-
- const q=normalizar(
-  $("q").value
+ const texto=normalizar(
+  document.getElementById("busqueda").value
  );
 
+ const filtrados=productos.filter(p=>{
 
- const rows=data.rows.filter(r=>{
+  const sap=normalizar(obtenerSAP(p));
+  const producto=normalizar(obtenerProducto(p));
 
-  const s=semaforo(r);
-
-  const basis=valor(
-   r,
-   "BASIS",
-   "basis"
-  );
-
-  const sap=valor(
-   r,
-   "SAP",
-   "sap"
-  );
-
-  const desc=valor(
-   r,
-   "DESCRIPCION",
-   "descripcion"
-  );
-
-
-  /*
-   Busca por BASIS,
-   SAP o DESCRIPCIÓN.
-  */
-
-  const txt=normalizar(
-   [
-    basis,
-    sap,
-    desc
-   ].join(" ")
-  );
-
-
-  return
-   (!sem || s===sem) &&
-   (!q || txt.includes(q));
+  return sap.includes(texto) || producto.includes(texto);
 
  });
 
+ document.getElementById("total").textContent=filtrados.length;
 
- $("count").textContent=
-  rows.length+
-  " productos encontrados";
+ let ok=0;
+ let criticos=0;
+ let agotados=0;
 
+ filtrados.forEach(p=>{
 
- $("body").innerHTML=
+  const stock=obtenerStock(p);
 
-  rows.length
+  if(stock>50) ok++;
+  else if(stock>5) criticos++;
+  else agotados++;
 
-  ?
+ });
 
-  rows.map(r=>{
+ document.getElementById("ok").textContent=ok;
+ document.getElementById("criticos").textContent=criticos;
+ document.getElementById("agotados").textContent=agotados;
 
-   const s=semaforo(r);
+ const tabla=document.getElementById("tabla");
+ const vacio=document.getElementById("vacio");
 
-   const e=estado(r);
+ tabla.innerHTML="";
 
-   const basis=valor(
-    r,
-    "BASIS",
-    "basis"
-   );
+ if(filtrados.length===0){
 
-   const sap=valor(
-    r,
-    "SAP",
-    "sap"
-   );
+  vacio.style.display="block";
+  vacio.textContent="No se encontraron productos";
 
-   const desc=valor(
-    r,
-    "DESCRIPCION",
-    "descripcion"
-   );
+  return;
 
-   const stock=valor(
-    r,
-    "STOCK_TOTAL",
-    "stock_total"
-   );
+ }
 
+ vacio.style.display="none";
 
-   return `
+ filtrados.forEach(p=>{
 
-    <tr>
+  const sap=obtenerSAP(p);
+  const producto=obtenerProducto(p);
+  const stock=obtenerStock(p);
+  const estado=calcularEstado(stock);
 
-     <td>
-      ${basis}
-     </td>
+  const fila=document.createElement("tr");
 
-     <td>
-      ${sap}
-     </td>
-
-     <td>
-      ${desc}
-     </td>
-
-     <td class="num stock">
-
-      ${fmt(stock)}
-
-      <span
-       class="sem ${s}"
-      ></span>
-
-     </td>
-
-     <td>
-
-      <span
-       class="badge ${estadoBadge(e)}"
-      >
-       ${e}
-      </span>
-
-     </td>
-
-    </tr>
-
-   `;
-
-  }).join("")
-
-
-  :
-
-  `
-
-   <tr>
-
-    <td
-     colspan="5"
-     style="
-      text-align:center;
-      padding:30px
-     "
-    >
-
-     No hay productos
-     con esos filtros.
-
-    </td>
-
-   </tr>
-
+  fila.innerHTML=`
+   <td>${sap}</td>
+   <td>${producto}</td>
+   <td><strong>${stock.toFixed(2)}</strong></td>
+   <td>
+    <span class="badge ${estado.clase}">
+     ${estado.texto}
+    </span>
+   </td>
   `;
+
+  tabla.appendChild(fila);
+
+ });
 
 }
 
+async function cargarDatos(){
 
-function cargar(){
+ try{
 
- fetch(
-  "datos.json?v="+Date.now(),
-  {
-   cache:"no-store"
-  }
- )
+  const respuesta=await fetch(
+   "datos.json?v="+Date.now(),
+   {cache:"no-store"}
+  );
 
- .then(r=>{
-
-  if(!r.ok){
-
-   throw new Error(
-    "No se pudo cargar datos.json"
-   );
-
+  if(!respuesta.ok){
+   throw new Error("No se pudo cargar datos.json");
   }
 
-  return r.json();
+  const datos=await respuesta.json();
 
- })
+  productos=Array.isArray(datos)
+   ? datos
+   : (Array.isArray(datos.rows) ? datos.rows : []);
 
+  mostrar();
 
- .then(d=>{
-
-  /*
-   Compatible con:
-   {rows:[...]}
-   y también [...]
-  */
-
-  if(Array.isArray(d)){
-
-   data={
-    rows:d
-   };
-
-  }else{
-
-   data=d;
-
-  }
-
-
-  if(!Array.isArray(data.rows)){
-
-   data.rows=[];
-
-  }
-
-
-  const c={
-   OK:0,
-   "CRÍTICO":0,
-   AGOTADO:0
-  };
-
-
-  data.rows.forEach(r=>{
-
-   const e=estado(r);
-
-   if(c[e]!==undefined){
-
-    c[e]++;
-
-   }
-
-  });
-
-
-  $("total").textContent=
-   data.rows.length;
-
-  $("ok").textContent=
-   c.OK;
-
-  $("crit").textContent=
-   c["CRÍTICO"];
-
-  $("agot").textContent=
-   c.AGOTADO;
-
-
-  const fecha=
-
-   d.updated
-
-    ?
-
-    new Date(d.updated)
-     .toLocaleString("es-PE")
-
-    :
-
-    new Date()
-     .toLocaleString("es-PE");
-
-
-  $("meta").textContent=
-   data.rows.length+
-   " productos · actualizado "+
-   fecha;
-
-
-  render();
-
- })
-
-
- .catch(error=>{
+ }catch(error){
 
   console.error(error);
 
+  document.getElementById("total").textContent="0";
 
-  $("meta").textContent=
-   "No se pudo cargar la información";
+  document.getElementById("tabla").innerHTML="";
 
+  document.getElementById("vacio").style.display="block";
 
-  $("body").innerHTML=`
+  document.getElementById("vacio").textContent=
+   "Error al cargar los datos";
 
-   <tr>
-
-    <td
-     colspan="5"
-     style="
-      text-align:center;
-      padding:30px
-     "
-    >
-
-     No se pudo cargar el stock.
-     Presiona "Actualizar".
-
-    </td>
-
-   </tr>
-
-  `;
-
- });
+ }
 
 }
 
+document
+ .getElementById("busqueda")
+ .addEventListener("input",mostrar);
 
-$("semaforo").addEventListener(
- "change",
- render
-);
-
-
-$("q").addEventListener(
- "input",
- render
-);
-
-
-cargar();
+cargarDatos();
 
 </script></body>
 </html>
