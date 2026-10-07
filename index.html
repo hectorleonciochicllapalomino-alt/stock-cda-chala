@@ -5,124 +5,839 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#174a78">
 <title>Stock Chala | Consulta de vendedores</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f6fa;color:#10243e}
-.header{background:#174a78;color:#fff;padding:20px max(16px,calc((100% - 1180px)/2))}
-.header h1{margin:0;font-size:30px}.header p{margin:6px 0 0;font-size:14px;opacity:.9}
-.card{max-width:1180px;margin:18px auto;background:#fff;border:1px solid #dbe3ec;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(20,50,80,.06)}
-.top{padding:20px}.title{display:flex;justify-content:space-between;gap:16px;align-items:center}
-.title h2{margin:0;font-size:23px}.meta{margin-top:6px;color:#54708c;font-size:12px}.ok{color:#287d50;font-size:12px}
-.ok:before{content:'●';margin-right:6px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}
-.stat{border:1px solid #dbe3ec;border-radius:10px;padding:12px;background:#fafcfe}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:#54708c}
-.filters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-.field label{display:block;font-size:11px;font-weight:700;margin-bottom:5px;color:#3e5870}
-.field select,.search input{width:100%;height:40px;border:1px solid #cbd7e3;border-radius:9px;padding:0 11px;font-size:13px;background:#fff}
-.search{display:flex;gap:8px;margin-top:10px}.search input{flex:1}.btn{border:0;border-radius:9px;background:#174a78;color:#fff;padding:0 16px;font-weight:700;cursor:pointer}
-.section{border-top:1px solid #dbe3ec}.section-title{padding:14px 20px 8px;font-size:13px;font-weight:700;color:#345b7e;text-transform:uppercase}
-.count{padding:0 20px 10px;color:#54708c;font-size:12px}.table-wrap{overflow:auto}
-table{width:100%;border-collapse:collapse;min-width:850px}
-th,td{padding:11px 12px;border-top:1px solid #dbe3ec;text-align:left;font-size:13px}
-th{background:#f7f9fb;color:#345b7e;font-size:10px;letter-spacing:.04em;position:sticky;top:0}
-.num{text-align:right;white-space:nowrap}.stock{font-weight:700}.sem{display:inline-block;width:11px;height:11px;border-radius:50%;margin-left:6px;vertical-align:-1px;border:1px solid rgba(0,0,0,.12)}
-.verde{background:#22a447}.amarillo{background:#f2c300}.anaranjado{background:#f28c28}.rojo{background:#df3030}
-.badge{font-size:10px;font-weight:700;padding:4px 7px;border-radius:999px}.badge.ok{background:#e8f7ed;color:#217541}.badge.crit{background:#fff4cf;color:#8a6800}.badge.agot{background:#fdeaea;color:#a32020}
-.footer{padding:12px 20px;color:#71869a;font-size:11px;border-top:1px solid #dbe3ec}
-.modal{position:fixed;inset:0;background:rgba(10,28,48,.62);display:flex;align-items:center;justify-content:center;padding:16px;z-index:5}
-.modalbox{width:min(520px,100%);background:#fff;border-radius:16px;padding:25px;box-shadow:0 18px 60px rgba(0,0,0,.25)}
-.modalbox h2{margin:0 0 8px;color:#174a78}.modalbox p{color:#425d74;line-height:1.5}.enter{width:100%;height:42px;border:0;border-radius:9px;background:#174a78;color:#fff;font-weight:700}
-.hidden{display:none!important}
+
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:#f3f6fa;
+ color:#10243e
+}
+
+.header{
+ background:#174a78;
+ color:#fff;
+ padding:20px max(16px,calc((100% - 1180px)/2))
+}
+
+.header h1{
+ margin:0;
+ font-size:30px
+}
+
+.header p{
+ margin:6px 0 0;
+ font-size:14px;
+ opacity:.9
+}
+
+.card{
+ max-width:1180px;
+ margin:18px auto;
+ background:#fff;
+ border:1px solid #dbe3ec;
+ border-radius:16px;
+ overflow:hidden;
+ box-shadow:0 8px 24px rgba(20,50,80,.06)
+}
+
+.top{
+ padding:20px
+}
+
+.title{
+ display:flex;
+ justify-content:space-between;
+ gap:16px;
+ align-items:center
+}
+
+.title h2{
+ margin:0;
+ font-size:23px
+}
+
+.meta{
+ margin-top:6px;
+ color:#54708c;
+ font-size:12px
+}
+
+.ok{
+ color:#287d50;
+ font-size:12px
+}
+
+.ok:before{
+ content:'●';
+ margin-right:6px
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:10px;
+ margin-top:15px
+}
+
+.stat{
+ border:1px solid #dbe3ec;
+ border-radius:10px;
+ padding:12px;
+ background:#fafcfe
+}
+
+.stat b{
+ display:block;
+ font-size:20px
+}
+
+.stat span{
+ font-size:11px;
+ color:#54708c
+}
+
+.filter{
+ margin-top:16px
+}
+
+.field label{
+ display:block;
+ font-size:11px;
+ font-weight:700;
+ margin-bottom:5px;
+ color:#3e5870
+}
+
+.field select{
+ width:100%;
+ height:40px;
+ border:1px solid #cbd7e3;
+ border-radius:9px;
+ padding:0 11px;
+ font-size:13px;
+ background:#fff
+}
+
+.search{
+ display:flex;
+ gap:8px;
+ margin-top:10px
+}
+
+.search input{
+ flex:1;
+ height:40px;
+ border:1px solid #cbd7e3;
+ border-radius:9px;
+ padding:0 11px;
+ font-size:13px
+}
+
+.btn{
+ border:0;
+ border-radius:9px;
+ background:#174a78;
+ color:#fff;
+ padding:0 16px;
+ font-weight:700;
+ cursor:pointer
+}
+
+.section{
+ border-top:1px solid #dbe3ec
+}
+
+.section-title{
+ padding:14px 20px 8px;
+ font-size:13px;
+ font-weight:700;
+ color:#345b7e;
+ text-transform:uppercase
+}
+
+.count{
+ padding:0 20px 10px;
+ color:#54708c;
+ font-size:12px
+}
+
+.table-wrap{
+ overflow:auto
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:650px
+}
+
+th,td{
+ padding:11px 12px;
+ border-top:1px solid #dbe3ec;
+ text-align:left;
+ font-size:13px
+}
+
+th{
+ background:#f7f9fb;
+ color:#345b7e;
+ font-size:10px;
+ letter-spacing:.04em;
+ position:sticky;
+ top:0
+}
+
+.num{
+ text-align:right;
+ white-space:nowrap
+}
+
+.stock{
+ font-weight:700
+}
+
+.sem{
+ display:inline-block;
+ width:11px;
+ height:11px;
+ border-radius:50%;
+ margin-left:6px;
+ vertical-align:-1px;
+ border:1px solid rgba(0,0,0,.12)
+}
+
+.verde{
+ background:#22a447
+}
+
+.amarillo{
+ background:#f2c300
+}
+
+.anaranjado{
+ background:#f28c28
+}
+
+.rojo{
+ background:#df3030
+}
+
+.badge{
+ font-size:10px;
+ font-weight:700;
+ padding:4px 7px;
+ border-radius:999px
+}
+
+.badge.ok{
+ background:#e8f7ed;
+ color:#217541
+}
+
+.badge.crit{
+ background:#fff4cf;
+ color:#8a6800
+}
+
+.badge.agot{
+ background:#fdeaea;
+ color:#a32020
+}
+
+.footer{
+ padding:12px 20px;
+ color:#71869a;
+ font-size:11px;
+ border-top:1px solid #dbe3ec
+}
+
+.modal{
+ position:fixed;
+ inset:0;
+ background:rgba(10,28,48,.62);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:16px;
+ z-index:5
+}
+
+.modalbox{
+ width:min(520px,100%);
+ background:#fff;
+ border-radius:16px;
+ padding:25px;
+ box-shadow:0 18px 60px rgba(0,0,0,.25)
+}
+
+.modalbox h2{
+ margin:0 0 8px;
+ color:#174a78
+}
+
+.modalbox p{
+ color:#425d74;
+ line-height:1.5
+}
+
+.enter{
+ width:100%;
+ height:42px;
+ border:0;
+ border-radius:9px;
+ background:#174a78;
+ color:#fff;
+ font-weight:700
+}
+
+.hidden{
+ display:none!important
+}
+
 @media(max-width:700px){
- .header{padding:13px 12px}.header h1{font-size:21px}.header p{font-size:11px}
- .card{width:calc(100% - 12px);margin:7px auto;border-radius:11px}.top{padding:12px}
- .title{align-items:flex-start;flex-direction:column;gap:4px}.title h2{font-size:18px}
- .stats{grid-template-columns:repeat(2,1fr);gap:7px}.stat{padding:9px}.stat b{font-size:17px}
- .filters{grid-template-columns:1fr;gap:7px}.field select,.search input{height:36px;font-size:12px}
- .btn{height:36px;padding:0 11px;font-size:11px}.section-title{padding:11px 12px 7px}.count{padding:0 12px 7px}
- th,td{padding:7px 6px;font-size:10px}.footer{padding:9px 12px}
+
+ .header{
+  padding:13px 12px
+ }
+
+ .header h1{
+  font-size:21px
+ }
+
+ .header p{
+  font-size:11px
+ }
+
+ .card{
+  width:calc(100% - 12px);
+  margin:7px auto;
+  border-radius:11px
+ }
+
+ .top{
+  padding:12px
+ }
+
+ .title{
+  align-items:flex-start;
+  flex-direction:column;
+  gap:4px
+ }
+
+ .title h2{
+  font-size:18px
+ }
+
+ .stats{
+  grid-template-columns:repeat(2,1fr);
+  gap:7px
+ }
+
+ .stat{
+  padding:9px
+ }
+
+ .stat b{
+  font-size:17px
+ }
+
+ .field select,
+ .search input{
+  height:36px;
+  font-size:12px
+ }
+
+ .btn{
+  height:36px;
+  padding:0 11px;
+  font-size:11px
+ }
+
+ .section-title{
+  padding:11px 12px 7px
+ }
+
+ .count{
+  padding:0 12px 7px
+ }
+
+ th,td{
+  padding:8px 7px;
+  font-size:10px
+ }
+
+ .footer{
+  padding:9px 12px
+ }
 }
 </style>
 </head>
+
 <body>
+
 <div id="welcome" class="modal">
  <div class="modalbox">
   <h2>Bienvenido a Stock Chala</h2>
-  <p>Consulta el stock disponible desde tu celular. Puedes buscar por BASIS, SAP o descripción y filtrar por familia o nivel de stock.</p>
+
+  <p>
+   Consulta el stock disponible desde tu celular.
+   Puedes buscar por BASIS, SAP o descripción
+   y filtrar por nivel de stock.
+  </p>
+
   <button class="enter" onclick="cerrar()">Ingresar</button>
  </div>
 </div>
+
 <header class="header">
  <h1>Stock CDA Chala</h1>
  <p>Consulta de stock · Vendedores</p>
 </header>
+
 <main class="card">
+
 <section class="top">
+
  <div class="title">
-  <div><h2>Stock de productos</h2><div id="meta" class="meta">Cargando datos...</div></div>
-  <div class="ok">Datos cargados</div>
+
+  <div>
+   <h2>Stock de productos</h2>
+   <div id="meta" class="meta">
+    Cargando datos...
+   </div>
+  </div>
+
+  <div class="ok">
+   Datos cargados
+  </div>
+
  </div>
+
  <div class="stats">
-  <div class="stat"><b id="total">0</b><span>PRODUCTOS</span></div>
-  <div class="stat"><b id="ok">0</b><span>OK</span></div>
-  <div class="stat"><b id="crit">0</b><span>CRÍTICOS</span></div>
-  <div class="stat"><b id="agot">0</b><span>AGOTADOS</span></div>
+
+  <div class="stat">
+   <b id="total">0</b>
+   <span>PRODUCTOS</span>
+  </div>
+
+  <div class="stat">
+   <b id="ok">0</b>
+   <span>OK</span>
+  </div>
+
+  <div class="stat">
+   <b id="crit">0</b>
+   <span>CRÍTICOS</span>
+  </div>
+
+  <div class="stat">
+   <b id="agot">0</b>
+   <span>AGOTADOS</span>
+  </div>
+
  </div>
- <div class="filters">
-  <div class="field"><label>FAMILIA</label><select id="familia"><option value="">Todas</option></select></div>
-  <div class="field"><label>SEMÁFORO DE STOCK</label><select id="semaforo">
-   <option value="">Todos</option><option value="verde">🟢 Verde — mayor a 50</option>
-   <option value="amarillo">🟡 Amarillo — mayor a 15 y hasta 50</option><option value="anaranjado">🟠 Anaranjado — mayor a 5 y hasta 15</option><option value="rojo">🔴 Rojo — hasta 5</option>
-  </select></div>
+
+ <div class="filter">
+
+  <div class="field">
+
+   <label>SEMÁFORO DE STOCK</label>
+
+   <select id="semaforo">
+
+    <option value="">Todos</option>
+
+    <option value="verde">
+     🟢 Verde — mayor a 50
+    </option>
+
+    <option value="amarillo">
+     🟡 Amarillo — mayor a 15 y hasta 50
+    </option>
+
+    <option value="anaranjado">
+     🟠 Anaranjado — mayor a 5 y hasta 15
+    </option>
+
+    <option value="rojo">
+     🔴 Rojo — hasta 5
+    </option>
+
+   </select>
+
+  </div>
+
  </div>
- <div class="search"><input id="q" placeholder="Buscar por BASIS, SAP o descripción..."><button class="btn" onclick="cargar()">↻ Actualizar</button></div>
+
+ <div class="search">
+
+  <input
+   id="q"
+   placeholder="Buscar por BASIS, SAP o descripción..."
+  >
+
+  <button class="btn" onclick="cargar()">
+   ↻ Actualizar
+  </button>
+
+ </div>
+
 </section>
+
 <section class="section">
- <div class="section-title">Stock disponible</div>
+
+ <div class="section-title">
+  Stock disponible
+ </div>
+
  <div id="count" class="count"></div>
- <div class="table-wrap"><table>
- <thead><tr><th>BASIS</th><th>SAP</th><th>DESCRIPCIÓN</th><th>FAMILIA</th><th>CAJAS</th><th>FRACCIÓN</th><th>STOCK</th><th>ESTADO</th></tr></thead>
- <tbody id="body"></tbody>
- </table></div>
+
+ <div class="table-wrap">
+
+  <table>
+
+   <thead>
+
+    <tr>
+     <th>BASIS</th>
+     <th>SAP</th>
+     <th>DESCRIPCIÓN</th>
+     <th>STOCK</th>
+     <th>ESTADO</th>
+    </tr>
+
+   </thead>
+
+   <tbody id="body"></tbody>
+
+  </table>
+
+ </div>
+
 </section>
-<div class="footer">Fuente: hoja STOCK_APP / Saldo Actual. La aplicación es de consulta; la actualización del stock se realiza en el archivo fuente.</div>
+
+<div class="footer">
+ Fuente: hoja STOCK_APP / Saldo Actual.
+ La aplicación es de consulta; la actualización del stock se realiza en el archivo fuente.
+</div>
+
 </main>
+
 <script>
-let data={rows:[]};
+
+let data={
+ rows:[]
+};
+
 const $=id=>document.getElementById(id);
-function cerrar(){$("welcome").classList.add("hidden")}
+
+function cerrar(){
+ $("welcome").classList.add("hidden");
+}
+
 function semaforo(r){
- const n=Number(r.STOCK_TOTAL||0);
- if(n>50)return"verde"; if(n>15)return"amarillo"; if(n>5)return"anaranjado"; return"rojo";
+
+ const n=Number(
+  r.stock_total ??
+  r.STOCK_TOTAL ??
+  r.stock ??
+  0
+ );
+
+ if(n>50)return"verde";
+
+ if(n>15)return"amarillo";
+
+ if(n>5)return"anaranjado";
+
+ return"rojo";
 }
-function estadoBadge(e){return e==="OK"?"ok":e==="CRÍTICO"?"crit":"agot"}
-function fmt(n){return Number(n||0).toLocaleString("es-PE",{maximumFractionDigits:2})}
+
+function estado(r){
+
+ if(r.estado)return r.estado;
+
+ if(r.ESTADO)return r.ESTADO;
+
+ const n=Number(
+  r.stock_total ??
+  r.STOCK_TOTAL ??
+  r.stock ??
+  0
+ );
+
+ if(n<=0)return"AGOTADO";
+
+ if(n<=15)return"CRÍTICO";
+
+ return"OK";
+}
+
+function estadoBadge(e){
+
+ if(e==="OK")return"ok";
+
+ if(e==="CRÍTICO")return"crit";
+
+ return"agot";
+}
+
+function fmt(n){
+
+ return Number(n||0).toLocaleString(
+  "es-PE",
+  {
+   maximumFractionDigits:2
+  }
+ );
+
+}
+
+function valor(r,campo1,campo2){
+
+ return r[campo1] ??
+        r[campo2] ??
+        "";
+
+}
+
 function render(){
- const fam=$("familia").value, sem=$("semaforo").value, q=$("q").value.trim().toLowerCase();
- const rows=data.rows.filter(r=>{
-  const s=semaforo(r);
-  const txt=[r.BASIS,r.SAP,r.DESCRIPCION].join(" ").toLowerCase();
-  return (!fam||r.FAMILIA===fam)&&(!sem||s===sem)&&(!q||txt.includes(q));
- }).sort((a,b)=>Number(b.STOCK_TOTAL)-Number(a.STOCK_TOTAL));
- $("count").textContent=rows.length+" productos encontrados";
- $("body").innerHTML=rows.length?rows.map(r=>{
-  const s=semaforo(r);
-  return `<tr><td>${r.BASIS}</td><td>${r.SAP}</td><td>${r.DESCRIPCION}</td><td>${r.FAMILIA}</td><td class="num">${fmt(r.CAJAS)}</td><td class="num">${fmt(r.FRACCION)}</td><td class="num stock">${fmt(r.STOCK_TOTAL)} <span class="sem ${s}"></span></td><td><span class="badge ${estadoBadge(r.ESTADO)}">${r.ESTADO}</span></td></tr>`
- }).join(""):`<tr><td colspan="8" style="text-align:center;padding:30px">No hay productos con esos filtros.</td></tr>`;
+
+ const sem=$("semaforo").value;
+
+ const q=$("q")
+  .value
+  .trim()
+  .toLowerCase();
+
+ const rows=data.rows
+  .filter(r=>{
+
+   const s=semaforo(r);
+
+   const basis=valor(r,"BASIS","basis");
+
+   const sap=valor(r,"SAP","sap");
+
+   const desc=valor(
+    r,
+    "DESCRIPCION",
+    "descripcion"
+   );
+
+   const txt=[
+    basis,
+    sap,
+    desc
+   ].join(" ").toLowerCase();
+
+   return
+    (!sem || s===sem) &&
+    (!q || txt.includes(q));
+
+  });
+
+ $("count").textContent=
+  rows.length+
+  " productos encontrados";
+
+ $("body").innerHTML=
+  rows.length
+   ?
+   rows.map(r=>{
+
+    const s=semaforo(r);
+
+    const e=estado(r);
+
+    const basis=valor(
+     r,
+     "BASIS",
+     "basis"
+    );
+
+    const sap=valor(
+     r,
+     "SAP",
+     "sap"
+    );
+
+    const desc=valor(
+     r,
+     "DESCRIPCION",
+     "descripcion"
+    );
+
+    const stock=valor(
+     r,
+     "STOCK_TOTAL",
+     "stock_total"
+    );
+
+    return `
+     <tr>
+
+      <td>${basis}</td>
+
+      <td>${sap}</td>
+
+      <td>${desc}</td>
+
+      <td class="num stock">
+       ${fmt(stock)}
+       <span class="sem ${s}"></span>
+      </td>
+
+      <td>
+       <span class="badge ${estadoBadge(e)}">
+        ${e}
+       </span>
+      </td>
+
+     </tr>
+    `;
+
+   }).join("")
+
+   :
+
+   `
+    <tr>
+     <td
+      colspan="5"
+      style="text-align:center;padding:30px"
+     >
+      No hay productos con esos filtros.
+     </td>
+    </tr>
+   `;
+
 }
+
 function cargar(){
- fetch("data.json?v="+Date.now(),{cache:"no-store"}).then(r=>r.json()).then(d=>{
-  data=d;
-  const fs=[...new Set(d.rows.map(r=>r.FAMILIA).filter(Boolean))].sort();
-  $("familia").innerHTML='<option value="">Todas</option>'+fs.map(f=>`<option>${f}</option>`).join("");
-  const c={OK:0,"CRÍTICO":0,AGOTADO:0}; d.rows.forEach(r=>c[r.ESTADO]++);
-  $("total").textContent=d.rows.length;$("ok").textContent=c.OK;$("crit").textContent=c["CRÍTICO"];$("agot").textContent=c.AGOTADO;
-  $("meta").textContent=d.rows.length+" productos · actualizado "+new Date(d.updated).toLocaleString("es-PE");
+
+ fetch(
+  "datos.json?v="+Date.now(),
+  {
+   cache:"no-store"
+  }
+ )
+
+ .then(r=>{
+
+  if(!r.ok){
+   throw new Error("No se pudo cargar datos.json");
+  }
+
+  return r.json();
+
+ })
+
+ .then(d=>{
+
+  /*
+   Compatible con:
+   {rows:[...]}
+   y también directamente [...]
+  */
+
+  if(Array.isArray(d)){
+   data={
+    rows:d
+   };
+  }else{
+   data=d;
+  }
+
+  if(!Array.isArray(data.rows)){
+   data.rows=[];
+  }
+
+  const c={
+   OK:0,
+   "CRÍTICO":0,
+   AGOTADO:0
+  };
+
+  data.rows.forEach(r=>{
+   const e=estado(r);
+
+   if(c[e]!==undefined){
+    c[e]++;
+   }
+  });
+
+  $("total").textContent=
+   data.rows.length;
+
+  $("ok").textContent=
+   c.OK;
+
+  $("crit").textContent=
+   c["CRÍTICO"];
+
+  $("agot").textContent=
+   c.AGOTADO;
+
+  const fecha=
+   d.updated
+    ?
+    new Date(d.updated)
+     .toLocaleString("es-PE")
+    :
+    new Date()
+     .toLocaleString("es-PE");
+
+  $("meta").textContent=
+   data.rows.length+
+   " productos · actualizado "+
+   fecha;
+
   render();
- }).catch(()=>{$("meta").textContent="No se pudo cargar la información";});
+
+ })
+
+ .catch(error=>{
+
+  console.error(error);
+
+  $("meta").textContent=
+   "No se pudo cargar la información";
+
+  $("body").innerHTML=`
+   <tr>
+    <td
+     colspan="5"
+     style="text-align:center;padding:30px"
+    >
+     No se pudo cargar el stock.
+     Presiona "Actualizar".
+    </td>
+   </tr>
+  `;
+
+ });
+
 }
-$("familia").addEventListener("change",render);$("semaforo").addEventListener("change",render);$("q").addEventListener("input",render);
+
+$("semaforo")
+ .addEventListener(
+  "change",
+  render
+ );
+
+$("q")
+ .addEventListener(
+  "input",
+  render
+ );
+
 cargar();
+
 </script>
+
 </body>
 </html>
