@@ -5,32 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stock CDA Chala</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8f9fa; color: #333; margin: 0; padding: 15px; }
-    header { text-align: center; margin-bottom: 15px; }
-    h1 { margin: 0; color: #1a73e8; font-size: 1.5rem; }
-    .subtitle { color: #5f6368; font-size: 0.85em; margin-top: 5px; }
-    .filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; align-items: center; }
-    input[type="text"], select { padding: 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 1rem; width: 100%; max-width: 350px; box-sizing: border-box; }
-    .legend { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; font-size: 0.8em; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8f9fa; color: #333; margin: 0; padding: 12px; }
+    header { text-align: center; margin-bottom: 12px; }
+    h1 { margin: 0; color: #1a73e8; font-size: 1.4rem; }
+    .subtitle { color: #5f6368; font-size: 0.8em; margin-top: 4px; }
+    .filters { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; align-items: center; }
+    input[type="text"], select { padding: 9px; border: 1px solid #dadce0; border-radius: 6px; font-size: 0.95rem; width: 100%; max-width: 350px; box-sizing: border-box; }
+    .legend { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; font-size: 0.75em; }
     .legend-item { display: flex; align-items: center; gap: 4px; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
     .bg-verde { background-color: #28a745; }
     .bg-amarillo { background-color: #ffc107; }
     .bg-anaranjado { background-color: #fd7e14; }
     .bg-rojo { background-color: #dc3545; }
     
-    /* Estilo de Tarjetas para Celulares optimizado */
-    .card-container { display: flex; flex-direction: column; gap: 10px; }
-    .card { background: white; border-radius: 8px; padding: 12px 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
-    .card-info { flex-grow: 1; padding-right: 10px; }
+    /* Estilo de Tarjetas para Celulares optimizado sin Basis y letras fluidas */
+    .card-container { display: flex; flex-direction: column; gap: 8px; }
+    .card { background: white; border-radius: 8px; padding: 10px 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; }
+    .card-info { flex-grow: 1; padding-right: 8px; overflow: hidden; }
     
-    /* Contenedor superior: Título + Códigos al costado */
-    .card-header-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; }
-    .card-title { font-weight: 600; color: #202124; font-size: 0.95em; flex-grow: 1; }
-    .card-codes { font-size: 0.75em; color: #5f6368; white-space: nowrap; background: #f1f3f4; padding: 2px 6px; border-radius: 4px; }
+    .card-header-row { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; margin-bottom: 2px; }
+    .card-title { font-weight: 600; color: #202124; font-size: 0.9em; overflow: hidden; text-overflow: ellipsis; }
+    .card-codes { font-size: 0.75em; color: #5f6368; white-space: nowrap; background: #f1f3f4; padding: 1px 5px; border-radius: 4px; }
     
-    .card-details { font-size: 0.8em; color: #5f6368; display: flex; gap: 10px; }
-    .badge { padding: 6px 10px; border-radius: 8px; color: white; font-weight: bold; font-size: 0.9em; text-align: center; min-width: 40px; }
+    .badge { padding: 5px 8px; border-radius: 6px; color: white; font-weight: bold; font-size: 0.85em; text-align: center; min-width: 38px; flex-shrink: 0; }
 
     /* Tabla tradicional para pantallas grandes (computadoras) */
     .table-container { display: none; overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
@@ -54,7 +52,7 @@
 
   <main>
     <div class="filters">
-      <input type="text" id="searchInput" placeholder="Buscar producto, SAP o BASIS..." oninput="filtrarTabla()">
+      <input type="text" id="searchInput" placeholder="Buscar producto o SAP..." oninput="filtrarTabla()">
       <select id="familyFilter" onchange="filtrarTabla()">
         <option value="">Todas las familias</option>
       </select>
@@ -91,7 +89,7 @@
   </main>
 
   <script>
-    // PEGA AQUÍ TU URL CSV DE LA HOJA STOCK ENTRE COMILLAS
+    // TU URL CSV DE LA HOJA STOCK
     const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
     let datosCompletos = [];
 
@@ -201,21 +199,21 @@
         const color = obtenerColorClass(item.stock);
         const stockTexto = item.stock.toFixed(2).replace(/\.00$/, '');
 
-        // Renderizado para Celular (Tarjetas con Basis y SAP al costado del nombre)
+        // Renderizado móvil limpio (SOLO SAP al costado, sin Basis, texto optimizado)
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
           <div class="card-info">
             <div class="card-header-row">
               <div class="card-title">${item.descripcion}</div>
-              <div class="card-codes">B: ${item.basis} | SAP: ${item.sap}</div>
+              <div class="card-codes">SAP: ${item.sap}</div>
             </div>
           </div>
           <div class="badge ${color.class}">${stockTexto}</div>
         `;
         cardList.appendChild(card);
 
-        // Renderizado para PC (Tabla)
+        // Renderizado para PC (Tabla completa con Basis)
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${item.basis}</td>
