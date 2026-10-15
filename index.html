@@ -19,11 +19,16 @@
     .bg-anaranjado { background-color: #fd7e14; }
     .bg-rojo { background-color: #dc3545; }
     
-    /* Estilo de Tarjetas para Celulares */
+    /* Estilo de Tarjetas para Celulares optimizado */
     .card-container { display: flex; flex-direction: column; gap: 10px; }
     .card { background: white; border-radius: 8px; padding: 12px 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
     .card-info { flex-grow: 1; padding-right: 10px; }
-    .card-title { font-weight: 600; color: #202124; font-size: 0.95em; margin-bottom: 4px; }
+    
+    /* Contenedor superior: Título + Códigos al costado */
+    .card-header-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .card-title { font-weight: 600; color: #202124; font-size: 0.95em; flex-grow: 1; }
+    .card-codes { font-size: 0.75em; color: #5f6368; white-space: nowrap; background: #f1f3f4; padding: 2px 6px; border-radius: 4px; }
+    
     .card-details { font-size: 0.8em; color: #5f6368; display: flex; gap: 10px; }
     .badge { padding: 6px 10px; border-radius: 8px; color: white; font-weight: bold; font-size: 0.9em; text-align: center; min-width: 40px; }
 
@@ -126,7 +131,10 @@
             const basis = col[0] || '';
             const sap = col[1] || '';
             const descripcion = col[2] || '';
-            const stockVal = parseFloat(col[4]) || 0;
+            
+            const stockRaw = (col[4] || '0').replace(/,/g, '');
+            const stockVal = parseFloat(stockRaw) || 0;
+            
             const familia = col[5] || '';
             const comercializa = (col[7] || '').toUpperCase();
             
@@ -189,19 +197,18 @@
         return;
       }
 
-      filtrados.display = filtrados.forEach(item => {
+      filtrados.forEach(item => {
         const color = obtenerColorClass(item.stock);
         const stockTexto = item.stock.toFixed(2).replace(/\.00$/, '');
 
-        // Renderizado para Celular (Tarjetas)
+        // Renderizado para Celular (Tarjetas con Basis y SAP al costado del nombre)
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
           <div class="card-info">
-            <div class="card-title">${item.descripcion}</div>
-            <div class="card-details">
-              <span>BASIS: ${item.basis}</span>
-              <span>SAP: ${item.sap}</span>
+            <div class="card-header-row">
+              <div class="card-title">${item.descripcion}</div>
+              <div class="card-codes">B: ${item.basis} | SAP: ${item.sap}</div>
             </div>
           </div>
           <div class="badge ${color.class}">${stockTexto}</div>
