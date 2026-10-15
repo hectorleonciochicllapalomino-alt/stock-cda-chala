@@ -5,32 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stock CDA Chala</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8f9fa; color: #333; margin: 0; padding: 20px; }
-    header { text-align: center; margin-bottom: 20px; }
-    h1 { margin: 0; color: #1a73e8; }
-    .subtitle { color: #5f6368; font-size: 0.9em; margin-top: 5px; }
-    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; justify-content: center; }
-    input[type="text"], select { padding: 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 1rem; width: 100%; max-width: 280px; }
-    .legend { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; font-size: 0.85em; }
-    .legend-item { display: flex; align-items: center; gap: 5px; }
-    .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8f9fa; color: #333; margin: 0; padding: 15px; }
+    header { text-align: center; margin-bottom: 15px; }
+    h1 { margin: 0; color: #1a73e8; font-size: 1.5rem; }
+    .subtitle { color: #5f6368; font-size: 0.85em; margin-top: 5px; }
+    .filters { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; align-items: center; }
+    input[type="text"], select { padding: 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 1rem; width: 100%; max-width: 350px; box-sizing: border-box; }
+    .legend { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; font-size: 0.8em; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
     .bg-verde { background-color: #28a745; }
     .bg-amarillo { background-color: #ffc107; }
     .bg-anaranjado { background-color: #fd7e14; }
     .bg-rojo { background-color: #dc3545; }
-    .table-container { overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    
+    /* Estilo de Tarjetas para Celulares */
+    .card-container { display: flex; flex-direction: column; gap: 10px; }
+    .card { background: white; border-radius: 8px; padding: 12px 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .card-info { flex-grow: 1; padding-right: 10px; }
+    .card-title { font-weight: 600; color: #202124; font-size: 0.95em; margin-bottom: 4px; }
+    .card-details { font-size: 0.8em; color: #5f6368; display: flex; gap: 10px; }
+    .badge { padding: 6px 10px; border-radius: 8px; color: white; font-weight: bold; font-size: 0.9em; text-align: center; min-width: 40px; }
+
+    /* Tabla tradicional para pantallas grandes (computadoras) */
+    .table-container { display: none; overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
     table { width: 100%; border-collapse: collapse; text-align: left; }
-    th, td { padding: 12px 15px; border-bottom: 1px solid #e0e0e0; }
+    th, td { padding: 12px 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95em; }
     th { background-color: #f1f3f4; font-weight: 600; color: #3c4043; }
-    tr:hover { background-color: #f8f9fa; }
-    .badge { padding: 4px 8px; border-radius: 12px; color: white; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 35px; text-align: center; }
+
+    @media (min-width: 768px) {
+      .filters { flex-direction: row; justify-content: center; }
+      .card-container { display: none; }
+      .table-container { display: block; }
+    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>Stock CDA Chala</h1>
-    <p class="subtitle">Tabla dinámica · Consulta de Stock en tiempo real</p>
+    <p class="subtitle">Consulta de Stock en tiempo real</p>
   </header>
 
   <main>
@@ -43,11 +57,17 @@
 
     <div class="legend">
       <div class="legend-item"><span class="dot bg-verde"></span> > 50</div>
-      <div class="legend-item"><span class="dot bg-amarillo"></span> > 15 y ≤ 50</div>
-      <div class="legend-item"><span class="dot bg-anaranjado"></span> > 5 y ≤ 15</div>
+      <div class="legend-item"><span class="dot bg-amarillo"></span> 16-50</div>
+      <div class="legend-item"><span class="dot bg-anaranjado"></span> 6-15</div>
       <div class="legend-item"><span class="dot bg-rojo"></span> ≤ 5</div>
     </div>
 
+    <!-- Vista de Tarjetas para Celulares -->
+    <div id="cardList" class="card-container">
+      <div style="text-align:center; padding: 20px; background:white; border-radius:8px;">Cargando datos...</div>
+    </div>
+
+    <!-- Vista de Tabla Tradicional para PCs -->
     <div class="table-container">
       <table id="stockTable">
         <thead>
@@ -98,7 +118,6 @@
         datosCompletos = [];
         const familiasSet = new Set();
         
-        // Empezamos desde la fila 6 (índice 6) de la hoja STOCK
         for(let i = 6; i < lineas.length; i++) {
           if(!lineas[i].trim()) continue;
           const col = parseCSVLine(lineas[i]);
@@ -111,7 +130,6 @@
             const familia = col[5] || '';
             const comercializa = (col[7] || '').toUpperCase();
             
-            // FILTRO: Solo incluir productos válidos que tengan comercialización en "SI" o "OK"
             const estaComercializado = comercializa.includes('SI') || comercializa.includes('OK');
             
             if(basis && !basis.toLowerCase().includes('basis') && estaComercializado) {
@@ -127,7 +145,6 @@
           }
         }
 
-        // Poblar el selector de familias dinámicamente
         const familySelect = document.getElementById('familyFilter');
         Array.from(familiasSet).sort().forEach(fam => {
           const opt = document.createElement('option');
@@ -138,21 +155,24 @@
 
         filtrarTabla();
       } catch (err) {
-        document.querySelector('#stockTable tbody').innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Error al cargar los datos. Revisa la URL CSV.</td></tr>';
+        document.getElementById('cardList').innerHTML = '<div style="text-align:center; color:red; padding:20px;">Error al cargar los datos.</div>';
       }
     }
 
     function obtenerColorClass(stock) {
-      if(stock > 50) return { class: 'bg-verde', name: 'verde' };
-      if(stock > 15) return { class: 'bg-amarillo', name: 'amarillo' };
-      if(stock > 5) return { class: 'bg-anaranjado', name: 'anaranjado' };
-      return { class: 'bg-rojo', name: 'rojo' };
+      if(stock > 50) return { class: 'bg-verde' };
+      if(stock > 15) return { class: 'bg-amarillo' };
+      if(stock > 5) return { class: 'bg-anaranjado' };
+      return { class: 'bg-rojo' };
     }
 
     function filtrarTabla() {
       const busqueda = document.getElementById('searchInput').value.toLowerCase();
       const filtroFamilia = document.getElementById('familyFilter').value;
+      const cardList = document.getElementById('cardList');
       const tbody = document.querySelector('#stockTable tbody');
+      
+      cardList.innerHTML = '';
       tbody.innerHTML = '';
 
       const filtrados = datosCompletos.filter(item => {
@@ -164,18 +184,37 @@
       });
 
       if(filtrados.length === 0) {
+        cardList.innerHTML = '<div style="text-align:center; padding:20px; background:white; border-radius:8px;">No se encontraron productos.</div>';
         tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No se encontraron productos.</td></tr>';
         return;
       }
 
-      filtrados.forEach(item => {
+      filtrados.display = filtrados.forEach(item => {
         const color = obtenerColorClass(item.stock);
+        const stockTexto = item.stock.toFixed(2).replace(/\.00$/, '');
+
+        // Renderizado para Celular (Tarjetas)
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-info">
+            <div class="card-title">${item.descripcion}</div>
+            <div class="card-details">
+              <span>BASIS: ${item.basis}</span>
+              <span>SAP: ${item.sap}</span>
+            </div>
+          </div>
+          <div class="badge ${color.class}">${stockTexto}</div>
+        `;
+        cardList.appendChild(card);
+
+        // Renderizado para PC (Tabla)
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${item.basis}</td>
           <td>${item.sap}</td>
           <td>${item.descripcion}</td>
-          <td><span class="badge ${color.class}">${item.stock.toFixed(2).replace(/\.00$/, '')}</span></td>
+          <td><span class="badge ${color.class}">${stockTexto}</span></td>
         `;
         tbody.appendChild(tr);
       });
