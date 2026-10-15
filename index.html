@@ -10,7 +10,7 @@
     h1 { margin: 0; color: #1a73e8; }
     .subtitle { color: #5f6368; font-size: 0.9em; margin-top: 5px; }
     .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; justify-content: center; }
-    input[type="text"], select { padding: 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 1rem; width: 100%; max-width: 300px; }
+    input[type="text"], select { padding: 10px; border: 1px solid #dadce0; border-radius: 6px; font-size: 1rem; width: 100%; max-width: 280px; }
     .legend { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; font-size: 0.85em; }
     .legend-item { display: flex; align-items: center; gap: 5px; }
     .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
@@ -36,12 +36,8 @@
   <main>
     <div class="filters">
       <input type="text" id="searchInput" placeholder="Buscar producto, SAP o BASIS..." oninput="filtrarTabla()">
-      <select id="colorFilter" onchange="filtrarTabla()">
-        <option value="">Todos los niveles</option>
-        <option value="verde">🟢 Verde — mayor a 50</option>
-        <option value="amarillo">🟡 Amarillo — mayor a 15 y hasta 50</option>
-        <option value="anaranjado">🟠 Anaranjado — mayor a 5 y hasta 15</option>
-        <option value="rojo">🔴 Rojo — hasta 5</option>
+      <select id="familyFilter" onchange="filtrarTabla()">
+        <option value="">Todas las familias</option>
       </select>
     </div>
 
@@ -71,7 +67,7 @@
 
   <script>
     // PEGA AQUÍ TU URL CSV DE LA HOJA STOCK ENTRE COMILLAS
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_V8RuVhUXIPkj1E2l6ig8o9rDaLYOpuHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
     let datosCompletos = [];
 
     function parseCSVLine(line) {
@@ -100,29 +96,46 @@
         const lineas = csvText.split('\n');
         
         datosCompletos = [];
+        const familiasSet = new Set();
         
-        // Empezamos desde la fila 6 (índice 6) donde realmente empiezan los productos en tu hoja STOCK
+        // Empezamos desde la fila 6 (índice 6) de la hoja STOCK
         for(let i = 6; i < lineas.length; i++) {
           if(!lineas[i].trim()) continue;
           const col = parseCSVLine(lineas[i]);
           
-          if(col.length >= 5 && col[2]) {
+          if(col.length >= 8 && col[2]) {
             const basis = col[0] || '';
             const sap = col[1] || '';
             const descripcion = col[2] || '';
             const stockVal = parseFloat(col[4]) || 0;
+            const familia = col[5] || '';
+            const comercializa = (col[7] || '').toUpperCase();
             
-            // Solo agregamos filas que tengan un código BASIS válido o número
-            if(basis && !basis.toLowerCase().includes('basis')) {
+            // FILTRO: Solo incluir productos válidos que tengan comercialización en "SI" o "OK"
+            const estaComercializado = comercializa.includes('SI') || comercializa.includes('OK');
+            
+            if(basis && !basis.toLowerCase().includes('basis') && estaComercializado) {
               datosCompletos.push({
                 basis: basis,
                 sap: sap,
                 descripcion: descripcion,
-                stock: stockVal
+                stock: stockVal,
+                familia: familia
               });
+              if(familia) familiasSet.add(familia);
             }
           }
         }
+
+        // Poblar el selector de familias dinámicamente
+        const familySelect = document.getElementById('familyFilter');
+        Array.from(familiasSet).sort().forEach(fam => {
+          const opt = document.createElement('option');
+          opt.value = fam;
+          opt.textContent = fam;
+          familySelect.appendChild(opt);
+        });
+
         filtrarTabla();
       } catch (err) {
         document.querySelector('#stockTable tbody').innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Error al cargar los datos. Revisa la URL CSV.</td></tr>';
@@ -138,7 +151,7 @@
 
     function filtrarTabla() {
       const busqueda = document.getElementById('searchInput').value.toLowerCase();
-      const filtroColor = document.getElementById('colorFilter').value;
+      const filtroFamilia = document.getElementById('familyFilter').value;
       const tbody = document.querySelector('#stockTable tbody');
       tbody.innerHTML = '';
 
@@ -146,9 +159,8 @@
         const coincideTexto = item.descripcion.toLowerCase().includes(busqueda) || 
                               item.sap.toLowerCase().includes(busqueda) || 
                               item.basis.toLowerCase().includes(busqueda);
-        const color = obtenerColorClass(item.stock);
-        const coincideColor = !filtroColor || color.name === filtroColor;
-        return coincideTexto && coincideColor;
+        const coincideFamilia = !filtroFamilia || item.familia === filtroFamilia;
+        return coincideTexto && coincideFamilia;
       });
 
       if(filtrados.length === 0) {
