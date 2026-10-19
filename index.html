@@ -183,51 +183,44 @@
         }
 
         function filtrar() {
-            const texto = document.getElementById('buscador').value.toLowerCase();
+            const t = document.getElementById('buscador').value.toLowerCase();
             const filtrados = listaProductos.filter(item => {
-                const coincideTexto = item.descripcion.toLowerCase().includes(texto) || item.sap.toLowerCase().includes(texto);
+                const coincideTexto = item.descripcion.toLowerCase().includes(t) || item.sap.toLowerCase().includes(t);
                 const coincideFamilia = (familiaSeleccionada === 'todas') || (item.familia.toUpperCase() === familiaSeleccionada.toUpperCase());
                 return coincideTexto && coincideFamilia;
             });
             renderizar(filtrados);
         }
 
-        function filtrarFamilia(familia, btn) {
-            familiaSeleccionada = familia;
+        function filtrarFamilia(fam, btn) {
+            familiaSeleccionada = fam;
             document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             filtrar();
         }
 
         function cargarDatosGoogleSheets() {
-            // Enlace ya integrado directamente
-            const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUX1Pkj1E2I6iG8o9rDaLY0puHkVkt-37wLipbikD8VsCQ/pub?gid=187705763&single=true&output=csv';
+            // Usamos un proxy público de CORS para asegurar que Google Sheets devuelva los datos sin bloqueos
+            const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUX1Pkj1E2I6iG8o9rDaLY0puHkVkt-37wLipbikD8VsCQ/pub?gid=187705763&single=true&output=csv';
+            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(sheetUrl);
 
-            fetch(urlGoogleSheets)
-                .then(response => {
-                    if (!response.ok) throw new Error('No se pudo conectar con la hoja');
-                    return response.text();
+            fetch(proxyUrl)
+                .then(res => {
+                    if (!res.ok) throw new Error('Error al conectar con la red');
+                    return res.text();
                 })
                 .then(dataCsv => {
                     listaProductos = convertirCSVaArray(dataCsv);
                     if (listaProductos.length === 0) {
-                        throw new Error('El archivo CSV está vacío o no tiene el formato correcto');
+                        throw new Error('No se encontraron filas válidas');
                     }
                     generarChipsFamilias(listaProductos);
                     renderizar(listaProductos);
                     mostrarFechaActualizacion();
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Si ocurre un error de red o CORS, cargamos datos de respaldo para que la interfaz no falle
-                    listaProductos = [
-                        { basis: "1", sap: "252348", descripcion: "SAN LUIS SPORT SIN GAS PFM 1000", stock: "2,321", familia: "SAN LUIS" },
-                        { basis: "2", sap: "251604", descripcion: "SAN LUIS S/G PNR 1.5 LTX6", stock: "2,014.33", familia: "SAN LUIS" },
-                        { basis: "3", sap: "256759", descripcion: "COCA COLA PET 600MLX12 RF", stock: "1,407.50", familia: "COCA COLA" }
-                    ];
-                    generarChipsFamilias(listaProductos);
-                    renderizar(listaProductos);
-                    mostrarFechaActualizacion();
+                .catch(err => {
+                    console.error('Error cargando datos:', err);
+                    document.getElementById('tabla-body').innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">❌ Error al conectar con Google Sheets. Revisa tu conexión.</td></tr>`;
                 });
         }
 
@@ -235,12 +228,10 @@
             const lineas = textoCSV.split('\n');
             const resultado = [];
 
-            // Empezamos desde i = 1 para saltar la cabecera
             for (let i = 1; i < lineas.length; i++) {
                 let linea = lineas[i].trim();
                 if (!linea) continue;
 
-                // Separador seguro para CSV respetando comillas
                 let columnas = [];
                 let enComillas = false;
                 let buffer = '';
