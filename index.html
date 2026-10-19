@@ -27,7 +27,7 @@
             padding: 10px; 
             max-width: 1050px; 
             margin: 0 auto; 
-            overflow-x: hidden; /* Evita scroll lateral en body */
+            overflow-x: hidden;
         }
 
         /* Encabezado Corporativo */
@@ -97,7 +97,7 @@
         .chip:hover { background: #e2e8f0; }
         .chip.active { background: #0f172a; color: white; border-color: #0f172a; box-shadow: 0 2px 5px rgba(15, 23, 42, 0.2); }
 
-        /* Contenedor y Tabla Responsiva (Sin Scroll Horizontal) */
+        /* Contenedor y Tabla Responsiva */
         .table-container { 
             background: #ffffff; 
             border-radius: 12px; 
@@ -112,7 +112,7 @@
             border-collapse: collapse; 
             text-align: left; 
             font-size: 0.82rem; 
-            table-layout: fixed; /* Mantiene proporciones fijas en pantalla */
+            table-layout: fixed;
         }
         
         thead {
@@ -224,7 +224,7 @@
             tbody.innerHTML = '';
 
             if (lista.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #64748b;">No se encontraron productos disponibles.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #64748b;">No se encontraron productos comercializables.</td></tr>`;
                 return;
             }
 
@@ -320,11 +320,14 @@
                 }
                 columnas.push(buffer.trim().replace(/^"|"$/g, ''));
 
-                // Filtrar únicamente los productos comercializables válidos
                 const descripcion = columnas[2] ? columnas[2].trim() : '';
                 const sap = columnas[1] ? columnas[1].trim() : '';
+                
+                // Buscamos si en alguna de las columnas dice "SI" (por defecto la columna de comercialización suele ser la pos 6 o 7)
+                const comercializa = columnas.some(col => col.trim().toUpperCase() === 'SI');
 
-                if (columnas.length >= 4 && descripcion !== '' && sap !== '' && sap.toUpperCase() !== 'SAP') {
+                // Solo agrega si es un producto válido Y comercializa = "SI"
+                if (columnas.length >= 4 && descripcion !== '' && sap !== '' && sap.toUpperCase() !== 'SAP' && comercializa) {
                     resultado.push({
                         basis: columnas[0] || '',
                         sap: sap,
