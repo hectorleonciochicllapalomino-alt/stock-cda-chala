@@ -201,7 +201,7 @@
 
         function cargarDatosGoogleSheets() {
             // Usamos un proxy público de CORS para asegurar que Google Sheets devuelva los datos sin bloqueos
-            const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUX1Pkj1E2I6iG8o9rDaLY0puHkVkt-37wLipbikD8VsCQ/pub?gid=187705763&single=true&output=csv';
+            const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
             const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(sheetUrl);
 
             fetch(proxyUrl)
