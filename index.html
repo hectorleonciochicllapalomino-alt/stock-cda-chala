@@ -1,231 +1,298 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stock CDA Chala</title>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8f9fa; color: #333; margin: 0; padding: 12px; }
-    header { text-align: center; margin-bottom: 12px; }
-    h1 { margin: 0; color: #1a73e8; font-size: 1.4rem; }
-    .subtitle { color: #5f6368; font-size: 0.8em; margin-top: 4px; }
-    .filters { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; align-items: center; }
-    input[type="text"], select { padding: 9px; border: 1px solid #dadce0; border-radius: 6px; font-size: 0.95rem; width: 100%; max-width: 350px; box-sizing: border-box; }
-    .legend { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; font-size: 0.75em; }
-    .legend-item { display: flex; align-items: center; gap: 4px; }
-    .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
-    .bg-verde { background-color: #28a745; }
-    .bg-amarillo { background-color: #ffc107; }
-    .bg-anaranjado { background-color: #fd7e14; }
-    .bg-rojo { background-color: #dc3545; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDA Chala - Control de Stock</title>
+    <!-- Fuente moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    /* Estilo de Tarjetas para Celulares optimizado sin Basis y letras fluidas */
-    .card-container { display: flex; flex-direction: column; gap: 8px; }
-    .card { background: white; border-radius: 8px; padding: 10px 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; }
-    .card-info { flex-grow: 1; padding-right: 8px; overflow: hidden; }
-    
-    .card-header-row { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; margin-bottom: 2px; }
-    .card-title { font-weight: 600; color: #202124; font-size: 0.9em; overflow: hidden; text-overflow: ellipsis; }
-    .card-codes { font-size: 0.75em; color: #5f6368; white-space: nowrap; background: #f1f3f4; padding: 1px 5px; border-radius: 4px; }
-    
-    .badge { padding: 5px 8px; border-radius: 6px; color: white; font-weight: bold; font-size: 0.85em; text-align: center; min-width: 38px; flex-shrink: 0; }
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0f172a;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            
+            /* Colores de Semaforización */
+            --dot-green: #10b981;
+            --dot-yellow: #f59e0b;
+            --dot-red: #ef4444;
+        }
 
-    /* Tabla tradicional para pantallas grandes (computadoras) */
-    .table-container { display: none; overflow-x: auto; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-    th, td { padding: 12px 15px; border-bottom: 1px solid #e0e0e0; font-size: 0.95em; }
-    th { background-color: #f1f3f4; font-weight: 600; color: #3c4043; }
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        body { background-color: #f8fafc; color: var(--text-main); padding: 12px; max-width: 1050px; margin: 0 auto; }
 
-    @media (min-width: 768px) {
-      .filters { flex-direction: row; justify-content: center; }
-      .card-container { display: none; }
-      .table-container { display: block; }
-    }
-  </style>
+        /* Encabezado Corporativo */
+        header {
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%);
+            color: white; padding: 14px 18px; border-radius: 12px; margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+        }
+        .header-title h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.3px; }
+        .header-title p { font-size: 0.78rem; color: #bae6fd; }
+        
+        /* Insignia con Fecha y Hora de Actualización */
+        .sync-badge { 
+            background: rgba(255, 255, 255, 0.2); 
+            color: #ffffff; 
+            padding: 6px 14px; 
+            border-radius: 20px; 
+            font-size: 0.78rem; 
+            font-weight: 600; 
+            backdrop-filter: blur(4px); 
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Buscador y Filtros */
+        .controls { background: #ffffff; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+        .search-input { width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; margin-bottom: 10px; outline: none; transition: border-color 0.2s; }
+        .search-input:focus { border-color: var(--primary); }
+        
+        /* Chips con imágenes / íconos */
+        .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+        .chips::-webkit-scrollbar { display: none; }
+        
+        .chip { 
+            background: #f1f5f9; 
+            border: 1px solid #cbd5e1; 
+            padding: 6px 14px; 
+            border-radius: 20px; 
+            font-size: 0.82rem; 
+            cursor: pointer; 
+            white-space: nowrap; 
+            font-weight: 600; 
+            color: #334155; 
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .chip img {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+        .chip:hover { background: #e2e8f0; }
+        .chip.active { background: #0f172a; color: white; border-color: #0f172a; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25); }
+
+        /* Tabla Estilo SAP */
+        .table-container { background: #ffffff; border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
+        
+        tr { border-bottom: 1px solid #f1f5f9; transition: background-color 0.15s; }
+        tr:hover { background-color: #f8fafc; }
+        tr:last-child { border-bottom: none; }
+        
+        td { padding: 12px 14px; vertical-align: middle; white-space: nowrap; }
+        
+        .col-id { width: 50px; color: #94a3b8; font-size: 0.8rem; font-weight: 500; }
+        .col-sap { width: 85px; color: #0284c7; font-weight: 700; font-size: 0.85rem; }
+        .col-desc { color: #0f172a; font-weight: 600; font-size: 0.88rem; text-transform: uppercase; }
+        .col-stock { text-align: right; font-weight: 800; font-size: 0.95rem; color: #0f172a; }
+        
+        /* Círculos de Estado */
+        .status-dot {
+            display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 10px; vertical-align: middle;
+            box-shadow: 0 0 4px rgba(0,0,0,0.15);
+        }
+        .dot-green { background-color: var(--dot-green); }
+        .dot-yellow { background-color: var(--dot-yellow); }
+        .dot-red { background-color: var(--dot-red); }
+
+        @media (max-width: 500px) {
+            td { padding: 11px 8px; font-size: 0.82rem; }
+            .col-id { display: none; }
+            .col-sap { width: 70px; font-size: 0.8rem; }
+            .col-desc { font-size: 0.82rem; }
+            .col-stock { font-size: 0.88rem; }
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <h1>Stock CDA Chala</h1>
-    <p class="subtitle">Consulta de Stock en tiempo real</p>
-  </header>
+    <!-- Encabezado con Fecha Dinámica -->
+    <header>
+        <div class="header-title">
+            <h1>CDA Chala — Control de Stock</h1>
+            <p>Inventario centralizado en tiempo real</p>
+        </div>
+        <div class="sync-badge">
+            🟢 Actualizado: <span id="fecha-actualizacion">Cargando...</span>
+        </div>
+    </header>
 
-  <main>
-    <div class="filters">
-      <input type="text" id="searchInput" placeholder="Buscar producto o SAP..." oninput="filtrarTabla()">
-      <select id="familyFilter" onchange="filtrarTabla()">
-        <option value="">Todas las familias</option>
-      </select>
+    <!-- Buscador y Chips con Imágenes -->
+    <div class="controls">
+        <input type="text" id="buscador" class="search-input" onkeyup="filtrar()" placeholder="🔍 Buscar por código SAP o descripción...">
+        
+        <div class="chips">
+            <button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>
+            <button class="chip" onclick="filtrarFamilia('SAN LUIS', this)">
+                <img src="https://flagcdn.com/w20/pe.png" alt="SAN LUIS" onerror="this.style.display='none'"> 💧 SAN LUIS
+            </button>
+            <button class="chip" onclick="filtrarFamilia('COCA COLA', this)">
+                <img src="https://via.placeholder.com/18/red/white?text=C" alt="COCA COLA" onerror="this.style.display='none'"> 🥤 COCA COLA
+            </button>
+            <button class="chip" onclick="filtrarFamilia('INCA KOLA', this)">
+                <img src="https://via.placeholder.com/18/yellow/black?text=I" alt="INCA KOLA" onerror="this.style.display='none'"> 💛 INCA KOLA
+            </button>
+            <button class="chip" onclick="filtrarFamilia('CERVEZAS', this)">
+                <img src="https://via.placeholder.com/18/orange/white?text=B" alt="CERVEZAS" onerror="this.style.display='none'"> 🍺 CERVEZAS
+            </button>
+        </div>
     </div>
 
-    <div class="legend">
-      <div class="legend-item"><span class="dot bg-verde"></span> > 50</div>
-      <div class="legend-item"><span class="dot bg-amarillo"></span> 16-50</div>
-      <div class="legend-item"><span class="dot bg-anaranjado"></span> 6-15</div>
-      <div class="legend-item"><span class="dot bg-rojo"></span> ≤ 5</div>
-    </div>
-
-    <!-- Vista de Tarjetas para Celulares -->
-    <div id="cardList" class="card-container">
-      <div style="text-align:center; padding: 20px; background:white; border-radius:8px;">Cargando datos...</div>
-    </div>
-
-    <!-- Vista de Tabla Tradicional para PCs -->
+    <!-- Tabla de Stock -->
     <div class="table-container">
-      <table id="stockTable">
-        <thead>
-          <tr>
-            <th>BASIS</th>
-            <th>SAP</th>
-            <th>DESCRIPCIÓN</th>
-            <th>STOCK PT</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td colspan="4" style="text-align:center;">Cargando datos...</td></tr>
-        </tbody>
-      </table>
+        <table>
+            <tbody id="tabla-body">
+                <!-- Se llena con los datos de Google Sheets -->
+            </tbody>
+        </table>
     </div>
-  </main>
 
-  <script>
-    // TU URL CSV DE LA HOJA STOCK
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
-    let datosCompletos = [];
+    <script>
+        // Array global para guardar tus productos
+        let listaProductos = [];
+        let familiaSeleccionada = 'todas';
 
-    function parseCSVLine(line) {
-      const result = [];
-      let current = '';
-      let inQuotes = false;
-      for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-          inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-          result.push(current.trim().replace(/^"|"$/g, ''));
-          current = '';
-        } else {
-          current += char;
+        // 1. Mostrar la fecha y hora exacta de la última actualización
+        function mostrarFechaActualizacion() {
+            const ahora = new Date();
+            const opcionesFecha = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const opcionesHora = { hour: '2-digit', minute: '2-digit', hour12: true };
+            
+            const fechaFormateada = ahora.toLocaleDateString('es-PE', opcionesFecha);
+            const horaFormateada = ahora.toLocaleTimeString('es-PE', opcionesHora);
+
+            document.getElementById('fecha-actualizacion').innerText = `${fechaFormateada} - ${horaFormateada}`;
         }
-      }
-      result.push(current.trim().replace(/^"|"$/g, ''));
-      return result;
-    }
 
-    async function cargarDatos() {
-      try {
-        const res = await fetch(CSV_URL);
-        const csvText = await res.text();
-        const lineas = csvText.split('\n');
-        
-        datosCompletos = [];
-        const familiasSet = new Set();
-        
-        for(let i = 6; i < lineas.length; i++) {
-          if(!lineas[i].trim()) continue;
-          const col = parseCSVLine(lineas[i]);
-          
-          if(col.length >= 8 && col[2]) {
-            const basis = col[0] || '';
-            const sap = col[1] || '';
-            const descripcion = col[2] || '';
-            
-            const stockRaw = (col[4] || '0').replace(/,/g, '');
-            const stockVal = parseFloat(stockRaw) || 0;
-            
-            const familia = col[5] || '';
-            const comercializa = (col[7] || '').toUpperCase();
-            
-            const estaComercializado = comercializa.includes('SI') || comercializa.includes('OK');
-            
-            if(basis && !basis.toLowerCase().includes('basis') && estaComercializado) {
-              datosCompletos.push({
-                basis: basis,
-                sap: sap,
-                descripcion: descripcion,
-                stock: stockVal,
-                familia: familia
-              });
-              if(familia) familiasSet.add(familia);
+        // 2. Renderizar la tabla continua estilo SAP
+        function renderizar(lista) {
+            const tbody = document.getElementById('tabla-body');
+            tbody.innerHTML = '';
+
+            if (lista.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #64748b;">No se encontraron productos.</td></tr>`;
+                return;
             }
-          }
+
+            lista.forEach(item => {
+                let dotClass = 'dot-green';
+                
+                // Criterios de semáforo por cantidad de stock
+                const numStock = parseFloat(String(item.stock).replace(/,/g, '')) || 0;
+                if (numStock <= 5) {
+                    dotClass = 'dot-red';
+                } else if (numStock <= 15) {
+                    dotClass = 'dot-yellow';
+                }
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="col-id">${item.id || ''}</td>
+                        <td class="col-sap">${item.sap || ''}</td>
+                        <td class="col-desc">${item.descripcion || item.nombre || ''}</td>
+                        <td class="col-stock">
+                            ${item.stock} <span class="status-dot ${dotClass}"></span>
+                        </td>
+                    </tr>
+                `;
+            });
         }
 
-        const familySelect = document.getElementById('familyFilter');
-        Array.from(familiasSet).sort().forEach(fam => {
-          const opt = document.createElement('option');
-          opt.value = fam;
-          opt.textContent = fam;
-          familySelect.appendChild(opt);
-        });
+        // 3. Filtro por texto y familia
+        function filtrar() {
+            const texto = document.getElementById('buscador').value.toLowerCase();
+            const filtrados = listaProductos.filter(item => {
+                const desc = (item.descripcion || item.nombre || '').toLowerCase();
+                const sap = String(item.sap || '').toLowerCase();
+                const fam = (item.familia || '').toUpperCase();
 
-        filtrarTabla();
-      } catch (err) {
-        document.getElementById('cardList').innerHTML = '<div style="text-align:center; color:red; padding:20px;">Error al cargar los datos.</div>';
-      }
-    }
+                const coincideTexto = desc.includes(texto) || sap.includes(texto);
+                const coincideFamilia = (familiaSeleccionada === 'todas') || (fam === familiaSeleccionada.toUpperCase());
 
-    function obtenerColorClass(stock) {
-      if(stock > 50) return { class: 'bg-verde' };
-      if(stock > 15) return { class: 'bg-amarillo' };
-      if(stock > 5) return { class: 'bg-anaranjado' };
-      return { class: 'bg-rojo' };
-    }
+                return coincideTexto && coincideFamilia;
+            });
+            renderizar(filtrados);
+        }
 
-    function filtrarTabla() {
-      const busqueda = document.getElementById('searchInput').value.toLowerCase();
-      const filtroFamilia = document.getElementById('familyFilter').value;
-      const cardList = document.getElementById('cardList');
-      const tbody = document.querySelector('#stockTable tbody');
-      
-      cardList.innerHTML = '';
-      tbody.innerHTML = '';
+        function filtrarFamilia(familia, btn) {
+            familiaSeleccionada = familia;
+            document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filtrar();
+        }
 
-      const filtrados = datosCompletos.filter(item => {
-        const coincideTexto = item.descripcion.toLowerCase().includes(busqueda) || 
-                              item.sap.toLowerCase().includes(busqueda) || 
-                              item.basis.toLowerCase().includes(busqueda);
-        const coincideFamilia = !filtroFamilia || item.familia === filtroFamilia;
-        return coincideTexto && coincideFamilia;
-      });
+        // 4. Conexión a tu enlace de Google Sheets (CSV)
+        function cargarDatosGoogleSheets() {
+            // ⚠️ PEGA TU ENLACE DE GOOGLE SHEETS CSV AQUÍ ABAJO (Entre las comillas simples)
+            const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
 
-      if(filtrados.length === 0) {
-        cardList.innerHTML = '<div style="text-align:center; padding:20px; background:white; border-radius:8px;">No se encontraron productos.</div>';
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No se encontraron productos.</td></tr>';
-        return;
-      }
+            // Si aún no has pegado el enlace, muestra datos de demostración
+            if (urlGoogleSheets === 'TU_ENLACE_DE_GOOGLE_SHEETS_CSV_AQUI') {
+                listaProductos = [
+                    { id: 1892, sap: "252348", descripcion: "SAN LUIS SPORT SIN GAS PFM 1000", stock: "2,321", familia: "SAN LUIS" },
+                    { id: 1858, sap: "251604", descripcion: "SAN LUIS S/G PNR 1.5 LTX6", stock: "2,014.33", familia: "SAN LUIS" },
+                    { id: 910,  sap: "256759", descripcion: "COCA COLA PET 600MLX12 RF", stock: "1,407.50", familia: "COCA COLA" },
+                    { id: 593,  sap: "256817", descripcion: "INCA KOLA PET 600ML X12 RF 2.0", stock: "1,327.08", familia: "INCA KOLA" },
+                    { id: 412,  sap: "256900", descripcion: "INCA KOLA 3L PB RETORNABLE", stock: "12", familia: "INCA KOLA" },
+                    { id: 105,  sap: "257110", descripcion: "COCA COLA 2.25L SABOR ORIGINAL", stock: "0", familia: "COCA COLA" }
+                ];
+                renderizar(listaProductos);
+                mostrarFechaActualizacion();
+                return;
+            }
 
-      filtrados.forEach(item => {
-        const color = obtenerColorClass(item.stock);
-        const stockTexto = item.stock.toFixed(2).replace(/\.00$/, '');
+            fetch(urlGoogleSheets)
+                .then(response => response.text())
+                .then(dataCsv => {
+                    listaProductos = convertirCSVaArray(dataCsv);
+                    renderizar(listaProductos);
+                    mostrarFechaActualizacion();
+                })
+                .catch(error => {
+                    console.error('Error al cargar datos desde Google Sheets:', error);
+                    document.getElementById('tabla-body').innerHTML = 
+                        `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">
+                            ❌ Error al cargar los datos del inventario. Verifica tu enlace de Google Sheets.
+                        </td></tr>`;
+                });
+        }
 
-        // Renderizado móvil limpio (SOLO SAP al costado, sin Basis, texto optimizado)
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-info">
-            <div class="card-header-row">
-              <div class="card-title">${item.descripcion}</div>
-              <div class="card-codes">SAP: ${item.sap}</div>
-            </div>
-          </div>
-          <div class="badge ${color.class}">${stockTexto}</div>
-        `;
-        cardList.appendChild(card);
+        // Función para convertir la respuesta CSV de Google Sheets a objetos JS
+        function convertirCSVaArray(textoCSV) {
+            const filas = textoCSV.split('\n');
+            const resultado = [];
 
-        // Renderizado para PC (Tabla completa con Basis)
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${item.basis}</td>
-          <td>${item.sap}</td>
-          <td>${item.descripcion}</td>
-          <td><span class="badge ${color.class}">${stockTexto}</span></td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
+            for (let i = 1; i < filas.length; i++) {
+                const fila = filas[i].trim();
+                if (!fila) continue;
 
-    cargarDatos();
-  </script>
+                const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+                if (columnas.length >= 4) {
+                    resultado.push({
+                        id: columnas[0] ? columnas[0].replace(/"/g, '').trim() : '',
+                        sap: columnas[1] ? columnas[1].replace(/"/g, '').trim() : '',
+                        descripcion: columnas[2] ? columnas[2].replace(/"/g, '').trim() : '',
+                        stock: columnas[3] ? columnas[3].replace(/"/g, '').trim() : '0',
+                        familia: columnas[4] ? columnas[4].replace(/"/g, '').trim() : ''
+                    });
+                }
+            }
+            return resultado;
+        }
+
+        // Ejecutar carga inicial
+        cargarDatosGoogleSheets();
+    </script>
 </body>
 </html>
