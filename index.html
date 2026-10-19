@@ -139,13 +139,7 @@
         }
 
         function cargarDatosGoogleSheets() {
-            // 👇 PEGA TU ENLACE PUBLICADO DE GOOGLE SHEETS CSV AQUÍ ABAJO:
             const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
-
-            if (urlGoogleSheets === 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv') {
-                document.getElementById('tabla-body').innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">⚠️ Por favor, pega tu enlace CSV de Google Sheets en el código.</td></tr>`;
-                return;
-            }
 
             fetch(urlGoogleSheets)
                 .then(response => response.text())
