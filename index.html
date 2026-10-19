@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CDA Chala - Control de Stock</title>
-    <!-- Fuente moderna -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -15,7 +14,6 @@
             --text-main: #0f172a;
             --text-muted: #64748b;
             
-            /* Colores de Semaforización */
             --dot-green: #10b981;
             --dot-yellow: #f59e0b;
             --dot-red: #ef4444;
@@ -24,7 +22,6 @@
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
         body { background-color: #f8fafc; color: var(--text-main); padding: 12px; max-width: 1050px; margin: 0 auto; }
 
-        /* Encabezado Corporativo */
         header {
             display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
             background: linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%);
@@ -34,7 +31,6 @@
         .header-title h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.3px; }
         .header-title p { font-size: 0.78rem; color: #bae6fd; }
         
-        /* Insignia con Fecha y Hora de Actualización */
         .sync-badge { 
             background: rgba(255, 255, 255, 0.2); 
             color: #ffffff; 
@@ -48,12 +44,10 @@
             gap: 6px;
         }
 
-        /* Buscador y Filtros */
         .controls { background: #ffffff; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
         .search-input { width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; margin-bottom: 10px; outline: none; transition: border-color 0.2s; }
         .search-input:focus { border-color: var(--primary); }
         
-        /* Chips con imágenes / íconos */
         .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
         .chips::-webkit-scrollbar { display: none; }
         
@@ -72,16 +66,9 @@
             align-items: center;
             gap: 6px;
         }
-        .chip img {
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
-            border-radius: 50%;
-        }
         .chip:hover { background: #e2e8f0; }
         .chip.active { background: #0f172a; color: white; border-color: #0f172a; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25); }
 
-        /* Tabla Estilo SAP */
         .table-container { background: #ffffff; border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
         
@@ -96,7 +83,6 @@
         .col-desc { color: #0f172a; font-weight: 600; font-size: 0.88rem; text-transform: uppercase; }
         .col-stock { text-align: right; font-weight: 800; font-size: 0.95rem; color: #0f172a; }
         
-        /* Círculos de Estado */
         .status-dot {
             display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 10px; vertical-align: middle;
             box-shadow: 0 0 4px rgba(0,0,0,0.15);
@@ -116,7 +102,6 @@
 </head>
 <body>
 
-    <!-- Encabezado con Fecha Dinámica -->
     <header>
         <div class="header-title">
             <h1>CDA Chala — Control de Stock</h1>
@@ -127,54 +112,34 @@
         </div>
     </header>
 
-    <!-- Buscador y Chips con Imágenes -->
     <div class="controls">
         <input type="text" id="buscador" class="search-input" onkeyup="filtrar()" placeholder="🔍 Buscar por código SAP o descripción...">
         
-        <div class="chips">
+        <div class="chips" id="chips-container">
             <button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>
-            <button class="chip" onclick="filtrarFamilia('SAN LUIS', this)">
-                <img src="https://flagcdn.com/w20/pe.png" alt="SAN LUIS" onerror="this.style.display='none'"> 💧 SAN LUIS
-            </button>
-            <button class="chip" onclick="filtrarFamilia('COCA COLA', this)">
-                <img src="https://via.placeholder.com/18/red/white?text=C" alt="COCA COLA" onerror="this.style.display='none'"> 🥤 COCA COLA
-            </button>
-            <button class="chip" onclick="filtrarFamilia('INCA KOLA', this)">
-                <img src="https://via.placeholder.com/18/yellow/black?text=I" alt="INCA KOLA" onerror="this.style.display='none'"> 💛 INCA KOLA
-            </button>
-            <button class="chip" onclick="filtrarFamilia('CERVEZAS', this)">
-                <img src="https://via.placeholder.com/18/orange/white?text=B" alt="CERVEZAS" onerror="this.style.display='none'"> 🍺 CERVEZAS
-            </button>
+            <!-- Las familias se cargarán solas aquí -->
         </div>
     </div>
 
-    <!-- Tabla de Stock -->
     <div class="table-container">
         <table>
             <tbody id="tabla-body">
-                <!-- Se llena con los datos de Google Sheets -->
+                <tr><td colspan="4" style="text-align:center; padding:20px; color:#64748b;">🔄 Sincronizando con Google Sheets...</td></tr>
             </tbody>
         </table>
     </div>
 
     <script>
-        // Array global para guardar tus productos
         let listaProductos = [];
         let familiaSeleccionada = 'todas';
 
-        // 1. Mostrar la fecha y hora exacta de la última actualización
         function mostrarFechaActualizacion() {
             const ahora = new Date();
-            const opcionesFecha = { day: '2-digit', month: '2-digit', year: 'numeric' };
-            const opcionesHora = { hour: '2-digit', minute: '2-digit', hour12: true };
-            
-            const fechaFormateada = ahora.toLocaleDateString('es-PE', opcionesFecha);
-            const horaFormateada = ahora.toLocaleTimeString('es-PE', opcionesHora);
-
+            const fechaFormateada = ahora.toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const horaFormateada = ahora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', hour12: true });
             document.getElementById('fecha-actualizacion').innerText = `${fechaFormateada} - ${horaFormateada}`;
         }
 
-        // 2. Renderizar la tabla continua estilo SAP
         function renderizar(lista) {
             const tbody = document.getElementById('tabla-body');
             tbody.innerHTML = '';
@@ -186,10 +151,9 @@
 
             lista.forEach(item => {
                 let dotClass = 'dot-green';
-                
-                // Criterios de semáforo por cantidad de stock
                 const numStock = parseFloat(String(item.stock).replace(/,/g, '')) || 0;
-                if (numStock <= 5) {
+                
+                if (numStock <= 0) {
                     dotClass = 'dot-red';
                 } else if (numStock <= 15) {
                     dotClass = 'dot-yellow';
@@ -197,28 +161,33 @@
 
                 tbody.innerHTML += `
                     <tr>
-                        <td class="col-id">${item.id || ''}</td>
-                        <td class="col-sap">${item.sap || ''}</td>
-                        <td class="col-desc">${item.descripcion || item.nombre || ''}</td>
+                        <td class="col-id">${item.basis}</td>
+                        <td class="col-sap">${item.sap}</td>
+                        <td class="col-desc">${item.descripcion}</td>
                         <td class="col-stock">
-                            ${item.stock} <span class="status-dot ${dotClass}"></span>
+                            ${item.stock} <span class="status-dot ${dotClass}" title="Stock: ${item.stock}"></span>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        // 3. Filtro por texto y familia
+        function generarChipsFamilias(productos) {
+            const contenedorChips = document.getElementById('chips-container');
+            const familiasUnicas = [...new Set(productos.map(p => p.familia).filter(f => f))];
+
+            let htmlChips = `<button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>`;
+            familiasUnicas.forEach(fam => {
+                htmlChips += `<button class="chip" onclick="filtrarFamilia('${fam}', this)">📦 ${fam}</button>`;
+            });
+            contenedorChips.innerHTML = htmlChips;
+        }
+
         function filtrar() {
             const texto = document.getElementById('buscador').value.toLowerCase();
             const filtrados = listaProductos.filter(item => {
-                const desc = (item.descripcion || item.nombre || '').toLowerCase();
-                const sap = String(item.sap || '').toLowerCase();
-                const fam = (item.familia || '').toUpperCase();
-
-                const coincideTexto = desc.includes(texto) || sap.includes(texto);
-                const coincideFamilia = (familiaSeleccionada === 'todas') || (fam === familiaSeleccionada.toUpperCase());
-
+                const coincideTexto = item.descripcion.toLowerCase().includes(texto) || item.sap.toLowerCase().includes(texto);
+                const coincideFamilia = (familiaSeleccionada === 'todas') || (item.familia.toUpperCase() === familiaSeleccionada.toUpperCase());
                 return coincideTexto && coincideFamilia;
             });
             renderizar(filtrados);
@@ -231,43 +200,26 @@
             filtrar();
         }
 
-        // 4. Conexión a tu enlace de Google Sheets (CSV)
         function cargarDatosGoogleSheets() {
-            // ⚠️ PEGA TU ENLACE DE GOOGLE SHEETS CSV AQUÍ ABAJO (Entre las comillas simples)
+            // 👇 PEGA TU ENLACE PUBLICADO DE GOOGLE SHEETS CSV AQUÍ ABAJO:
             const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
 
-            // Si aún no has pegado el enlace, muestra datos de demostración
-            if (urlGoogleSheets === 'TU_ENLACE_DE_GOOGLE_SHEETS_CSV_AQUI') {
-                listaProductos = [
-                    { id: 1892, sap: "252348", descripcion: "SAN LUIS SPORT SIN GAS PFM 1000", stock: "2,321", familia: "SAN LUIS" },
-                    { id: 1858, sap: "251604", descripcion: "SAN LUIS S/G PNR 1.5 LTX6", stock: "2,014.33", familia: "SAN LUIS" },
-                    { id: 910,  sap: "256759", descripcion: "COCA COLA PET 600MLX12 RF", stock: "1,407.50", familia: "COCA COLA" },
-                    { id: 593,  sap: "256817", descripcion: "INCA KOLA PET 600ML X12 RF 2.0", stock: "1,327.08", familia: "INCA KOLA" },
-                    { id: 412,  sap: "256900", descripcion: "INCA KOLA 3L PB RETORNABLE", stock: "12", familia: "INCA KOLA" },
-                    { id: 105,  sap: "257110", descripcion: "COCA COLA 2.25L SABOR ORIGINAL", stock: "0", familia: "COCA COLA" }
-                ];
-                renderizar(listaProductos);
-                mostrarFechaActualizacion();
-                return;
             }
 
             fetch(urlGoogleSheets)
                 .then(response => response.text())
                 .then(dataCsv => {
                     listaProductos = convertirCSVaArray(dataCsv);
+                    generarChipsFamilias(listaProductos);
                     renderizar(listaProductos);
                     mostrarFechaActualizacion();
                 })
                 .catch(error => {
-                    console.error('Error al cargar datos desde Google Sheets:', error);
-                    document.getElementById('tabla-body').innerHTML = 
-                        `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">
-                            ❌ Error al cargar los datos del inventario. Verifica tu enlace de Google Sheets.
-                        </td></tr>`;
+                    console.error('Error al cargar datos:', error);
+                    document.getElementById('tabla-body').innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">❌ Error al cargar los datos de Google Sheets.</td></tr>`;
                 });
         }
 
-        // Función para convertir la respuesta CSV de Google Sheets a objetos JS
         function convertirCSVaArray(textoCSV) {
             const filas = textoCSV.split('\n');
             const resultado = [];
@@ -278,20 +230,20 @@
 
                 const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 
-                if (columnas.length >= 4) {
+                if (columnas.length >= 6) {
                     resultado.push({
-                        id: columnas[0] ? columnas[0].replace(/"/g, '').trim() : '',
+                        basis: columnas[0] ? columnas[0].replace(/"/g, '').trim() : '',
                         sap: columnas[1] ? columnas[1].replace(/"/g, '').trim() : '',
                         descripcion: columnas[2] ? columnas[2].replace(/"/g, '').trim() : '',
-                        stock: columnas[3] ? columnas[3].replace(/"/g, '').trim() : '0',
-                        familia: columnas[4] ? columnas[4].replace(/"/g, '').trim() : ''
+                        um: columnas[3] ? columnas[3].replace(/"/g, '').trim() : '',
+                        stock: columnas[4] ? columnas[4].replace(/"/g, '').trim() : '0',
+                        familia: columnas[5] ? columnas[5].replace(/"/g, '').trim() : 'OTROS'
                     });
                 }
             }
             return resultado;
         }
 
-        // Ejecutar carga inicial
         cargarDatosGoogleSheets();
     </script>
 </body>
