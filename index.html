@@ -14,11 +14,6 @@
             --border-color: #e2e8f0;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            
-            /* Colores de Semaforización */
-            --dot-green: #10b981;
-            --dot-yellow: #f59e0b;
-            --dot-red: #ef4444;
         }
 
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
@@ -48,32 +43,10 @@
             gap: 6px;
         }
 
-        /* Buscador y Filtros */
+        /* Buscador */
         .controls { background: #ffffff; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-        .search-input { width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; margin-bottom: 10px; outline: none; transition: border-color 0.2s; }
+        .search-input { width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
         .search-input:focus { border-color: var(--primary); }
-        
-        /* Chips de Familia */
-        .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
-        .chips::-webkit-scrollbar { display: none; }
-        
-        .chip { 
-            background: #f1f5f9; 
-            border: 1px solid #cbd5e1; 
-            padding: 6px 14px; 
-            border-radius: 20px; 
-            font-size: 0.82rem; 
-            cursor: pointer; 
-            white-space: nowrap; 
-            font-weight: 600; 
-            color: #334155; 
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .chip:hover { background: #e2e8f0; }
-        .chip.active { background: #0f172a; color: white; border-color: #0f172a; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25); }
 
         /* Tabla Continua Estilo SAP */
         .table-container { background: #ffffff; border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
@@ -89,15 +62,6 @@
         .col-sap { width: 85px; color: #0284c7; font-weight: 700; font-size: 0.85rem; }
         .col-desc { color: #0f172a; font-weight: 600; font-size: 0.88rem; text-transform: uppercase; }
         .col-stock { text-align: right; font-weight: 800; font-size: 0.95rem; color: #0f172a; }
-        
-        /* Círculos de Estado (Semaforización) */
-        .status-dot {
-            display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 10px; vertical-align: middle;
-            box-shadow: 0 0 4px rgba(0,0,0,0.15);
-        }
-        .dot-green { background-color: var(--dot-green); }
-        .dot-yellow { background-color: var(--dot-yellow); }
-        .dot-red { background-color: var(--dot-red); }
 
         @media (max-width: 500px) {
             td { padding: 11px 8px; font-size: 0.82rem; }
@@ -121,13 +85,9 @@
         </div>
     </header>
 
-    <!-- Controles de búsqueda y filtros -->
+    <!-- Buscador -->
     <div class="controls">
         <input type="text" id="buscador" class="search-input" onkeyup="filtrar()" placeholder="🔍 Buscar por código SAP o descripción...">
-        
-        <div class="chips" id="chips-container">
-            <button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>
-        </div>
     </div>
 
     <!-- Tabla -->
@@ -141,7 +101,6 @@
 
     <script>
         let listaProductos = [];
-        let familiaSeleccionada = 'todas';
 
         function mostrarFechaActualizacion() {
             const ahora = new Date();
@@ -160,68 +119,38 @@
             }
 
             lista.forEach(item => {
-                let dotClass = 'dot-green';
-                const numStock = parseFloat(String(item.stock).replace(/,/g, '')) || 0;
-                
-                if (numStock <= 0) {
-                    dotClass = 'dot-red';
-                } else if (numStock <= 15) {
-                    dotClass = 'dot-yellow';
-                }
-
                 tbody.innerHTML += `
                     <tr>
                         <td class="col-id">${item.basis}</td>
                         <td class="col-sap">${item.sap}</td>
                         <td class="col-desc">${item.descripcion}</td>
-                        <td class="col-stock">
-                            ${item.stock} <span class="status-dot ${dotClass}"></span>
-                        </td>
+                        <td class="col-stock">${item.stock}</td>
                     </tr>
                 `;
             });
         }
 
-        function generarChipsFamilias(productos) {
-            const contenedorChips = document.getElementById('chips-container');
-            const familiasUnicas = [...new Set(productos.map(p => p.familia).filter(f => f && f !== ''))];
-
-            let htmlChips = `<button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>`;
-            familiasUnicas.forEach(fam => {
-                htmlChips += `<button class="chip" onclick="filtrarFamilia('${fam}', this)">📦 ${fam}</button>`;
-            });
-            contenedorChips.innerHTML = htmlChips;
-        }
-
         function filtrar() {
             const texto = document.getElementById('buscador').value.toLowerCase();
             const filtrados = listaProductos.filter(item => {
-                const coincideTexto = item.descripcion.toLowerCase().includes(texto) || item.sap.toLowerCase().includes(texto);
-                const coincideFamilia = (familiaSeleccionada === 'todas') || (item.familia.toUpperCase() === familiaSeleccionada.toUpperCase());
-                return coincideTexto && coincideFamilia;
+                return item.descripcion.toLowerCase().includes(texto) || item.sap.toLowerCase().includes(texto);
             });
             renderizar(filtrados);
         }
 
-        function filtrarFamilia(familia, btn) {
-            familiaSeleccionada = familia;
-            document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            filtrar();
-        }
-
         function cargarDatosGoogleSheets() {
             // 👇 PEGA TU ENLACE PUBLICADO DE GOOGLE SHEETS CSV AQUÍ ABAJO:
-            const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUX1Pkj1E2I6iG8o9rDaLY0puHkVkt-37wLipbikD8VsCQ/pub?gid=187705763&single=true&output=csv';
+            const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
 
-       
+            if (urlGoogleSheets === 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv') {
+                document.getElementById('tabla-body').innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">⚠️ Por favor, pega tu enlace CSV de Google Sheets en el código.</td></tr>`;
+                return;
             }
 
             fetch(urlGoogleSheets)
                 .then(response => response.text())
                 .then(dataCsv => {
                     listaProductos = convertirCSVaArray(dataCsv);
-                    generarChipsFamilias(listaProductos);
                     renderizar(listaProductos);
                     mostrarFechaActualizacion();
                 })
