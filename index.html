@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CDA Chala - Control de Stock</title>
+    <!-- Fuente Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -14,6 +15,7 @@
             --text-main: #0f172a;
             --text-muted: #64748b;
             
+            /* Colores de Semaforización */
             --dot-green: #10b981;
             --dot-yellow: #f59e0b;
             --dot-red: #ef4444;
@@ -22,6 +24,7 @@
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
         body { background-color: #f8fafc; color: var(--text-main); padding: 12px; max-width: 1050px; margin: 0 auto; }
 
+        /* Encabezado Corporativo */
         header {
             display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
             background: linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%);
@@ -31,6 +34,7 @@
         .header-title h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.3px; }
         .header-title p { font-size: 0.78rem; color: #bae6fd; }
         
+        /* Insignia con Fecha y Hora */
         .sync-badge { 
             background: rgba(255, 255, 255, 0.2); 
             color: #ffffff; 
@@ -44,10 +48,12 @@
             gap: 6px;
         }
 
+        /* Buscador y Filtros */
         .controls { background: #ffffff; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
         .search-input { width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; margin-bottom: 10px; outline: none; transition: border-color 0.2s; }
         .search-input:focus { border-color: var(--primary); }
         
+        /* Chips de Familia */
         .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
         .chips::-webkit-scrollbar { display: none; }
         
@@ -69,6 +75,7 @@
         .chip:hover { background: #e2e8f0; }
         .chip.active { background: #0f172a; color: white; border-color: #0f172a; box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25); }
 
+        /* Tabla Continua Estilo SAP */
         .table-container { background: #ffffff; border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
         
@@ -83,6 +90,7 @@
         .col-desc { color: #0f172a; font-weight: 600; font-size: 0.88rem; text-transform: uppercase; }
         .col-stock { text-align: right; font-weight: 800; font-size: 0.95rem; color: #0f172a; }
         
+        /* Círculos de Estado (Semaforización) */
         .status-dot {
             display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-left: 10px; vertical-align: middle;
             box-shadow: 0 0 4px rgba(0,0,0,0.15);
@@ -102,6 +110,7 @@
 </head>
 <body>
 
+    <!-- Encabezado -->
     <header>
         <div class="header-title">
             <h1>CDA Chala — Control de Stock</h1>
@@ -112,18 +121,24 @@
         </div>
     </header>
 
+    <!-- Controles de búsqueda y filtros -->
     <div class="controls">
         <input type="text" id="buscador" class="search-input" onkeyup="filtrar()" placeholder="🔍 Buscar por código SAP o descripción...">
         
-        <div class="chips" id="chips-container">
+        <div class="chips">
             <button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>
+            <button class="chip" onclick="filtrarFamilia('SAN LUIS', this)">💧 SAN LUIS</button>
+            <button class="chip" onclick="filtrarFamilia('COCA COLA', this)">🥤 COCA COLA</button>
+            <button class="chip" onclick="filtrarFamilia('INCA KOLA', this)">💛 INCA KOLA</button>
+            <button class="chip" onclick="filtrarFamilia('CERVEZAS', this)">🍺 CERVEZAS</button>
         </div>
     </div>
 
+    <!-- Tabla -->
     <div class="table-container">
         <table>
             <tbody id="tabla-body">
-                <tr><td colspan="4" style="text-align:center; padding:20px; color:#64748b;">🔄 Sincronizando con Google Sheets...</td></tr>
+                <!-- Se llena mediante JS -->
             </tbody>
         </table>
     </div>
@@ -152,7 +167,7 @@
                 let dotClass = 'dot-green';
                 const numStock = parseFloat(String(item.stock).replace(/,/g, '')) || 0;
                 
-                if (numStock <= 0) {
+                if (numStock <= 5) {
                     dotClass = 'dot-red';
                 } else if (numStock <= 15) {
                     dotClass = 'dot-yellow';
@@ -160,9 +175,9 @@
 
                 tbody.innerHTML += `
                     <tr>
-                        <td class="col-id">${item.basis}</td>
-                        <td class="col-sap">${item.sap}</td>
-                        <td class="col-desc">${item.descripcion}</td>
+                        <td class="col-id">${item.id || ''}</td>
+                        <td class="col-sap">${item.sap || ''}</td>
+                        <td class="col-desc">${item.descripcion || ''}</td>
                         <td class="col-stock">
                             ${item.stock} <span class="status-dot ${dotClass}"></span>
                         </td>
@@ -171,98 +186,44 @@
             });
         }
 
-        function generarChipsFamilias(productos) {
-            const contenedorChips = document.getElementById('chips-container');
-            const familiasUnicas = [...new Set(productos.map(p => p.familia).filter(f => f && f !== ''))];
-
-            let htmlChips = `<button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>`;
-            familiasUnicas.forEach(fam => {
-                htmlChips += `<button class="chip" onclick="filtrarFamilia('${fam}', this)">📦 ${fam}</button>`;
-            });
-            contenedorChips.innerHTML = htmlChips;
-        }
-
         function filtrar() {
-            const t = document.getElementById('buscador').value.toLowerCase();
+            const texto = document.getElementById('buscador').value.toLowerCase();
             const filtrados = listaProductos.filter(item => {
-                const coincideTexto = item.descripcion.toLowerCase().includes(t) || item.sap.toLowerCase().includes(t);
-                const coincideFamilia = (familiaSeleccionada === 'todas') || (item.familia.toUpperCase() === familiaSeleccionada.toUpperCase());
+                const desc = (item.descripcion || '').toLowerCase();
+                const sap = String(item.sap || '').toLowerCase();
+                const fam = (item.familia || '').toUpperCase();
+
+                const coincideTexto = desc.includes(texto) || sap.includes(texto);
+                const coincideFamilia = (familiaSeleccionada === 'todas') || (fam === familiaSeleccionada.toUpperCase());
+
                 return coincideTexto && coincideFamilia;
             });
             renderizar(filtrados);
         }
 
-        function filtrarFamilia(fam, btn) {
-            familiaSeleccionada = fam;
+        function filtrarFamilia(familia, btn) {
+            familiaSeleccionada = familia;
             document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             filtrar();
         }
 
-        function cargarDatosGoogleSheets() {
-            // Usamos un proxy público de CORS para asegurar que Google Sheets devuelva los datos sin bloqueos
-            const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
-            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(sheetUrl);
+        function cargarDatos() {
+            // Datos estables de muestra
+            listaProductos = [
+                { id: 1892, sap: "252348", descripcion: "SAN LUIS SPORT SIN GAS PFM 1000", stock: "2,321", familia: "SAN LUIS" },
+                { id: 1858, sap: "251604", descripcion: "SAN LUIS S/G PNR 1.5 LTX6", stock: "2,014.33", familia: "SAN LUIS" },
+                { id: 910,  sap: "256759", descripcion: "COCA COLA PET 600MLX12 RF", stock: "1,407.50", familia: "COCA COLA" },
+                { id: 593,  sap: "256817", descripcion: "INCA KOLA PET 600ML X12 RF 2.0", stock: "1,327.08", familia: "INCA KOLA" },
+                { id: 412,  sap: "256900", descripcion: "INCA KOLA 3L PB RETORNABLE", stock: "12", familia: "INCA KOLA" },
+                { id: 105,  sap: "257110", descripcion: "COCA COLA 2.25L SABOR ORIGINAL", stock: "0", familia: "COCA COLA" }
+            ];
 
-            fetch(proxyUrl)
-                .then(res => {
-                    if (!res.ok) throw new Error('Error al conectar con la red');
-                    return res.text();
-                })
-                .then(dataCsv => {
-                    listaProductos = convertirCSVaArray(dataCsv);
-                    if (listaProductos.length === 0) {
-                        throw new Error('No se encontraron filas válidas');
-                    }
-                    generarChipsFamilias(listaProductos);
-                    renderizar(listaProductos);
-                    mostrarFechaActualizacion();
-                })
-                .catch(err => {
-                    console.error('Error cargando datos:', err);
-                    document.getElementById('tabla-body').innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">❌ Error al conectar con Google Sheets. Revisa tu conexión.</td></tr>`;
-                });
+            renderizar(listaProductos);
+            mostrarFechaActualizacion();
         }
 
-        function convertirCSVaArray(textoCSV) {
-            const lineas = textoCSV.split('\n');
-            const resultado = [];
-
-            for (let i = 1; i < lineas.length; i++) {
-                let linea = lineas[i].trim();
-                if (!linea) continue;
-
-                let columnas = [];
-                let enComillas = false;
-                let buffer = '';
-                
-                for (let char of linea) {
-                    if (char === '"') {
-                        enComillas = !enComillas;
-                    } else if (char === ',' && !enComillas) {
-                        columnas.push(buffer.trim().replace(/^"|"$/g, ''));
-                        buffer = '';
-                    } else {
-                        buffer += char;
-                    }
-                }
-                columnas.push(buffer.trim().replace(/^"|"$/g, ''));
-
-                if (columnas.length >= 5) {
-                    resultado.push({
-                        basis: columnas[0] || '',
-                        sap: columnas[1] || '',
-                        descripcion: columnas[2] || '',
-                        um: columnas[3] || '',
-                        stock: columnas[4] || '0',
-                        familia: columnas[5] || 'GENERAL'
-                    });
-                }
-            }
-            return resultado;
-        }
-
-        cargarDatosGoogleSheets();
+        cargarDatos();
     </script>
 </body>
 </html>
