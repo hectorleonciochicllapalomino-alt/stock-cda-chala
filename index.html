@@ -125,12 +125,8 @@
     <div class="controls">
         <input type="text" id="buscador" class="search-input" onkeyup="filtrar()" placeholder="🔍 Buscar por código SAP o descripción...">
         
-        <div class="chips">
+        <div class="chips" id="chips-container">
             <button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>
-            <button class="chip" onclick="filtrarFamilia('SAN LUIS', this)">💧 SAN LUIS</button>
-            <button class="chip" onclick="filtrarFamilia('COCA COLA', this)">🥤 COCA COLA</button>
-            <button class="chip" onclick="filtrarFamilia('INCA KOLA', this)">💛 INCA KOLA</button>
-            <button class="chip" onclick="filtrarFamilia('CERVEZAS', this)">🍺 CERVEZAS</button>
         </div>
     </div>
 
@@ -138,7 +134,7 @@
     <div class="table-container">
         <table>
             <tbody id="tabla-body">
-                <!-- Se llena mediante JS -->
+                <tr><td colspan="4" style="text-align:center; padding:20px; color:#64748b;">🔄 Sincronizando con Google Sheets...</td></tr>
             </tbody>
         </table>
     </div>
@@ -167,7 +163,7 @@
                 let dotClass = 'dot-green';
                 const numStock = parseFloat(String(item.stock).replace(/,/g, '')) || 0;
                 
-                if (numStock <= 5) {
+                if (numStock <= 0) {
                     dotClass = 'dot-red';
                 } else if (numStock <= 15) {
                     dotClass = 'dot-yellow';
@@ -175,9 +171,9 @@
 
                 tbody.innerHTML += `
                     <tr>
-                        <td class="col-id">${item.id || ''}</td>
-                        <td class="col-sap">${item.sap || ''}</td>
-                        <td class="col-desc">${item.descripcion || ''}</td>
+                        <td class="col-id">${item.basis}</td>
+                        <td class="col-sap">${item.sap}</td>
+                        <td class="col-desc">${item.descripcion}</td>
                         <td class="col-stock">
                             ${item.stock} <span class="status-dot ${dotClass}"></span>
                         </td>
@@ -186,16 +182,22 @@
             });
         }
 
+        function generarChipsFamilias(productos) {
+            const contenedorChips = document.getElementById('chips-container');
+            const familiasUnicas = [...new Set(productos.map(p => p.familia).filter(f => f && f !== ''))];
+
+            let htmlChips = `<button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>`;
+            familiasUnicas.forEach(fam => {
+                htmlChips += `<button class="chip" onclick="filtrarFamilia('${fam}', this)">📦 ${fam}</button>`;
+            });
+            contenedorChips.innerHTML = htmlChips;
+        }
+
         function filtrar() {
             const texto = document.getElementById('buscador').value.toLowerCase();
             const filtrados = listaProductos.filter(item => {
-                const desc = (item.descripcion || '').toLowerCase();
-                const sap = String(item.sap || '').toLowerCase();
-                const fam = (item.familia || '').toUpperCase();
-
-                const coincideTexto = desc.includes(texto) || sap.includes(texto);
-                const coincideFamilia = (familiaSeleccionada === 'todas') || (fam === familiaSeleccionada.toUpperCase());
-
+                const coincideTexto = item.descripcion.toLowerCase().includes(texto) || item.sap.toLowerCase().includes(texto);
+                const coincideFamilia = (familiaSeleccionada === 'todas') || (item.familia.toUpperCase() === familiaSeleccionada.toUpperCase());
                 return coincideTexto && coincideFamilia;
             });
             renderizar(filtrados);
@@ -208,22 +210,66 @@
             filtrar();
         }
 
-        function cargarDatos() {
-            // Datos estables de muestra
-            listaProductos = [
-                { id: 1892, sap: "252348", descripcion: "SAN LUIS SPORT SIN GAS PFM 1000", stock: "2,321", familia: "SAN LUIS" },
-                { id: 1858, sap: "251604", descripcion: "SAN LUIS S/G PNR 1.5 LTX6", stock: "2,014.33", familia: "SAN LUIS" },
-                { id: 910,  sap: "256759", descripcion: "COCA COLA PET 600MLX12 RF", stock: "1,407.50", familia: "COCA COLA" },
-                { id: 593,  sap: "256817", descripcion: "INCA KOLA PET 600ML X12 RF 2.0", stock: "1,327.08", familia: "INCA KOLA" },
-                { id: 412,  sap: "256900", descripcion: "INCA KOLA 3L PB RETORNABLE", stock: "12", familia: "INCA KOLA" },
-                { id: 105,  sap: "257110", descripcion: "COCA COLA 2.25L SABOR ORIGINAL", stock: "0", familia: "COCA COLA" }
-            ];
+        function cargarDatosGoogleSheets() {
+            // 👇 PEGA TU ENLACE PUBLICADO DE GOOGLE SHEETS CSV AQUÍ ABAJO:
+            const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUX1Pkj1E2I6iG8o9rDaLY0puHkVkt-37wLipbikD8VsCQ/pub?gid=187705763&single=true&output=csv';
 
-            renderizar(listaProductos);
-            mostrarFechaActualizacion();
+       
+            }
+
+            fetch(urlGoogleSheets)
+                .then(response => response.text())
+                .then(dataCsv => {
+                    listaProductos = convertirCSVaArray(dataCsv);
+                    generarChipsFamilias(listaProductos);
+                    renderizar(listaProductos);
+                    mostrarFechaActualizacion();
+                })
+                .catch(error => {
+                    console.error('Error al cargar datos:', error);
+                    document.getElementById('tabla-body').innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">❌ Error al cargar los datos de Google Sheets.</td></tr>`;
+                });
         }
 
-        cargarDatos();
+        function convertirCSVaArray(textoCSV) {
+            const lineas = textoCSV.split('\n');
+            const resultado = [];
+
+            for (let i = 1; i < lineas.length; i++) {
+                let linea = lineas[i].trim();
+                if (!linea) continue;
+
+                let columnas = [];
+                let enComillas = false;
+                let buffer = '';
+                
+                for (let char of linea) {
+                    if (char === '"') {
+                        enComillas = !enComillas;
+                    } else if (char === ',' && !enComillas) {
+                        columnas.push(buffer.trim().replace(/^"|"$/g, ''));
+                        buffer = '';
+                    } else {
+                        buffer += char;
+                    }
+                }
+                columnas.push(buffer.trim().replace(/^"|"$/g, ''));
+
+                if (columnas.length >= 5) {
+                    resultado.push({
+                        basis: columnas[0] || '',
+                        sap: columnas[1] || '',
+                        descripcion: columnas[2] || '',
+                        um: columnas[3] || '',
+                        stock: columnas[4] || '0',
+                        familia: columnas[5] || 'GENERAL'
+                    });
+                }
+            }
+            return resultado;
+        }
+
+        cargarDatosGoogleSheets();
     </script>
 </body>
 </html>
