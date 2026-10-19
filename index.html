@@ -14,28 +14,39 @@
             --border-color: #e2e8f0;
             --text-main: #0f172a;
             --text-muted: #64748b;
+            
+            --dot-green: #10b981;
+            --dot-yellow: #f59e0b;
+            --dot-red: #ef4444;
         }
 
         * { box-sizing: border-box; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f8fafc; color: var(--text-main); padding: 12px; max-width: 1050px; margin: 0 auto; }
+        body { 
+            background-color: #f8fafc; 
+            color: var(--text-main); 
+            padding: 10px; 
+            max-width: 1050px; 
+            margin: 0 auto; 
+            overflow-x: hidden; /* Evita scroll lateral en body */
+        }
 
         /* Encabezado Corporativo */
         header {
             display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
             background: linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%);
-            color: white; padding: 14px 18px; border-radius: 12px; margin-bottom: 12px;
+            color: white; padding: 12px 16px; border-radius: 12px; margin-bottom: 10px;
             box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
         }
-        .header-title h1 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.3px; }
-        .header-title p { font-size: 0.78rem; color: #bae6fd; }
+        .header-title h1 { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.3px; }
+        .header-title p { font-size: 0.75rem; color: #bae6fd; }
         
-        /* Insignia con Fecha y Hora */
+        /* Insignia con Fecha de Sincronización */
         .sync-badge { 
             background: rgba(255, 255, 255, 0.2); 
             color: #ffffff; 
-            padding: 6px 14px; 
+            padding: 5px 12px; 
             border-radius: 20px; 
-            font-size: 0.78rem; 
+            font-size: 0.75rem; 
             font-weight: 600; 
             backdrop-filter: blur(4px); 
             display: flex;
@@ -43,32 +54,119 @@
             gap: 6px;
         }
 
-        /* Buscador */
-        .controls { background: #ffffff; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-        .search-input { width: 100%; padding: 10px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+        /* Controles (Buscador y Chips) */
+        .controls { 
+            background: #ffffff; 
+            padding: 12px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color); 
+            margin-bottom: 10px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03); 
+        }
+        .search-input { 
+            width: 100%; 
+            padding: 10px 12px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 8px; 
+            font-size: 0.88rem; 
+            margin-bottom: 10px; 
+            outline: none; 
+            transition: border-color 0.2s; 
+        }
         .search-input:focus { border-color: var(--primary); }
-
-        /* Tabla Continua Estilo SAP */
-        .table-container { background: #ffffff; border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
         
+        /* Chips de Familias */
+        .chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+        .chips::-webkit-scrollbar { display: none; }
+        
+        .chip { 
+            background: #f1f5f9; 
+            border: 1px solid #cbd5e1; 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-size: 0.78rem; 
+            cursor: pointer; 
+            white-space: nowrap; 
+            font-weight: 600; 
+            color: #334155; 
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .chip:hover { background: #e2e8f0; }
+        .chip.active { background: #0f172a; color: white; border-color: #0f172a; box-shadow: 0 2px 5px rgba(15, 23, 42, 0.2); }
+
+        /* Contenedor y Tabla Responsiva (Sin Scroll Horizontal) */
+        .table-container { 
+            background: #ffffff; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color); 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            width: 100%;
+            overflow: hidden; 
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            text-align: left; 
+            font-size: 0.82rem; 
+            table-layout: fixed; /* Mantiene proporciones fijas en pantalla */
+        }
+        
+        thead {
+            background-color: #f1f5f9;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        th {
+            padding: 10px 8px;
+            font-weight: 700;
+            color: #475569;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         tr { border-bottom: 1px solid #f1f5f9; transition: background-color 0.15s; }
         tr:hover { background-color: #f8fafc; }
         tr:last-child { border-bottom: none; }
         
-        td { padding: 12px 14px; vertical-align: middle; white-space: nowrap; }
+        td { 
+            padding: 10px 8px; 
+            vertical-align: middle; 
+            word-wrap: break-word; 
+            overflow: hidden;
+        }
         
-        .col-id { width: 50px; color: #94a3b8; font-size: 0.8rem; font-weight: 500; }
-        .col-sap { width: 85px; color: #0284c7; font-weight: 700; font-size: 0.85rem; }
-        .col-desc { color: #0f172a; font-weight: 600; font-size: 0.88rem; text-transform: uppercase; }
-        .col-stock { text-align: right; font-weight: 800; font-size: 0.95rem; color: #0f172a; }
+        /* Definición de Anchos Proporcionales */
+        .col-sap { width: 18%; color: #0284c7; font-weight: 700; font-size: 0.8rem; }
+        .col-desc { width: 50%; color: #0f172a; font-weight: 600; font-size: 0.82rem; text-transform: uppercase; line-height: 1.25; }
+        .col-um { width: 14%; color: #64748b; font-weight: 500; font-size: 0.75rem; text-align: center; }
+        .col-stock { width: 18%; text-align: right; font-weight: 800; font-size: 0.88rem; color: #0f172a; white-space: nowrap; }
+        
+        /* Semaforización */
+        .status-dot {
+            display: inline-block; 
+            width: 10px; 
+            height: 10px; 
+            border-radius: 50%; 
+            margin-left: 4px; 
+            vertical-align: middle;
+            box-shadow: 0 0 3px rgba(0,0,0,0.15);
+        }
+        .dot-green { background-color: var(--dot-green); }
+        .dot-yellow { background-color: var(--dot-yellow); }
+        .dot-red { background-color: var(--dot-red); }
 
-        @media (max-width: 500px) {
-            td { padding: 11px 8px; font-size: 0.82rem; }
-            .col-id { display: none; }
-            .col-sap { width: 70px; font-size: 0.8rem; }
-            .col-desc { font-size: 0.82rem; }
-            .col-stock { font-size: 0.88rem; }
+        @media (max-width: 480px) {
+            body { padding: 6px; }
+            td, th { padding: 8px 5px; }
+            .col-sap { width: 20%; font-size: 0.75rem; }
+            .col-desc { width: 48%; font-size: 0.78rem; }
+            .col-um { width: 12%; font-size: 0.7rem; }
+            .col-stock { width: 20%; font-size: 0.82rem; }
         }
     </style>
 </head>
@@ -81,26 +179,38 @@
             <p>Inventario centralizado en tiempo real</p>
         </div>
         <div class="sync-badge">
-            🟢 Actualizado: <span id="fecha-actualizacion">Cargando...</span>
+            🟢 Sincronizado: <span id="fecha-actualizacion">Cargando...</span>
         </div>
     </header>
 
-    <!-- Buscador -->
+    <!-- Buscador y Filtros de Familia -->
     <div class="controls">
-        <input type="text" id="buscador" class="search-input" onkeyup="filtrar()" placeholder="🔍 Buscar por código SAP o descripción...">
+        <input type="text" id="buscador" class="search-input" onkeyup="filtrar()" placeholder="🔍 Buscar por código SAP o producto...">
+        <div class="chips" id="chips-container">
+            <button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>
+        </div>
     </div>
 
-    <!-- Tabla -->
+    <!-- Tabla de Productos -->
     <div class="table-container">
         <table>
+            <thead>
+                <tr>
+                    <th class="col-sap">SAP</th>
+                    <th class="col-desc">PRODUCTO</th>
+                    <th class="col-um">UM</th>
+                    <th class="col-stock" style="text-align: right;">STOCK</th>
+                </tr>
+            </thead>
             <tbody id="tabla-body">
-                <tr><td colspan="4" style="text-align:center; padding:20px; color:#64748b;">🔄 Sincronizando con Google Sheets...</td></tr>
+                <tr><td colspan="4" style="text-align:center; padding:20px; color:#64748b;">🔄 Cargando inventario de Google Sheets...</td></tr>
             </tbody>
         </table>
     </div>
 
     <script>
         let listaProductos = [];
+        let familiaSeleccionada = 'todas';
 
         function mostrarFechaActualizacion() {
             const ahora = new Date();
@@ -114,43 +224,75 @@
             tbody.innerHTML = '';
 
             if (lista.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #64748b;">No se encontraron productos.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 20px; color: #64748b;">No se encontraron productos disponibles.</td></tr>`;
                 return;
             }
 
             lista.forEach(item => {
+                let dotClass = 'dot-green';
+                const numStock = parseFloat(String(item.stock).replace(/,/g, '')) || 0;
+                
+                if (numStock <= 0) {
+                    dotClass = 'dot-red';
+                } else if (numStock <= 15) {
+                    dotClass = 'dot-yellow';
+                }
+
                 tbody.innerHTML += `
                     <tr>
-                        <td class="col-id">${item.basis}</td>
                         <td class="col-sap">${item.sap}</td>
                         <td class="col-desc">${item.descripcion}</td>
-                        <td class="col-stock">${item.stock}</td>
+                        <td class="col-um">${item.um}</td>
+                        <td class="col-stock">
+                            ${item.stock} <span class="status-dot ${dotClass}"></span>
+                        </td>
                     </tr>
                 `;
             });
         }
 
+        function generarChipsFamilias(productos) {
+            const contenedorChips = document.getElementById('chips-container');
+            const familiasUnicas = [...new Set(productos.map(p => p.familia).filter(f => f && f.trim() !== '' && f.toUpperCase() !== 'GENERAL'))];
+
+            let htmlChips = `<button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>`;
+            familiasUnicas.forEach(fam => {
+                htmlChips += `<button class="chip" onclick="filtrarFamilia('${fam}', this)">📦 ${fam}</button>`;
+            });
+            contenedorChips.innerHTML = htmlChips;
+        }
+
         function filtrar() {
             const texto = document.getElementById('buscador').value.toLowerCase();
             const filtrados = listaProductos.filter(item => {
-                return item.descripcion.toLowerCase().includes(texto) || item.sap.toLowerCase().includes(texto);
+                const coincideTexto = item.descripcion.toLowerCase().includes(texto) || item.sap.toLowerCase().includes(texto);
+                const coincideFamilia = (familiaSeleccionada === 'todas') || (item.familia.toUpperCase() === familiaSeleccionada.toUpperCase());
+                return coincideTexto && coincideFamilia;
             });
             renderizar(filtrados);
         }
 
+        function filtrarFamilia(familia, btn) {
+            familiaSeleccionada = familia;
+            document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filtrar();
+        }
+
         function cargarDatosGoogleSheets() {
-            const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
+            const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUX1Pkj1E2I6iG8o9rDaLY0puHkVkt-37wLipbikD8VsCQ/pub?gid=187705763&single=true&output=csv';
 
             fetch(urlGoogleSheets)
                 .then(response => response.text())
                 .then(dataCsv => {
                     listaProductos = convertirCSVaArray(dataCsv);
+                    generarChipsFamilias(listaProductos);
                     renderizar(listaProductos);
                     mostrarFechaActualizacion();
                 })
                 .catch(error => {
                     console.error('Error al cargar datos:', error);
-                    document.getElementById('tabla-body').innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">❌ Error al cargar los datos de Google Sheets.</td></tr>`;
+                    document.getElementById('tabla-body').innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">❌ Error al conectar con Google Sheets.</td></tr>`;
                 });
         }
 
@@ -178,14 +320,18 @@
                 }
                 columnas.push(buffer.trim().replace(/^"|"$/g, ''));
 
-                if (columnas.length >= 5) {
+                // Filtrar únicamente los productos comercializables válidos
+                const descripcion = columnas[2] ? columnas[2].trim() : '';
+                const sap = columnas[1] ? columnas[1].trim() : '';
+
+                if (columnas.length >= 4 && descripcion !== '' && sap !== '' && sap.toUpperCase() !== 'SAP') {
                     resultado.push({
                         basis: columnas[0] || '',
-                        sap: columnas[1] || '',
-                        descripcion: columnas[2] || '',
-                        um: columnas[3] || '',
+                        sap: sap,
+                        descripcion: descripcion,
+                        um: columnas[3] || 'CJ',
                         stock: columnas[4] || '0',
-                        familia: columnas[5] || 'GENERAL'
+                        familia: columnas[5] ? columnas[5].trim() : 'GENERAL'
                     });
                 }
             }
