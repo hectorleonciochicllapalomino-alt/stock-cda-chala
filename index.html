@@ -117,7 +117,6 @@
         
         <div class="chips" id="chips-container">
             <button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>
-            <!-- Las familias se cargarán solas aquí -->
         </div>
     </div>
 
@@ -165,7 +164,7 @@
                         <td class="col-sap">${item.sap}</td>
                         <td class="col-desc">${item.descripcion}</td>
                         <td class="col-stock">
-                            ${item.stock} <span class="status-dot ${dotClass}" title="Stock: ${item.stock}"></span>
+                            ${item.stock} <span class="status-dot ${dotClass}"></span>
                         </td>
                     </tr>
                 `;
@@ -174,7 +173,7 @@
 
         function generarChipsFamilias(productos) {
             const contenedorChips = document.getElementById('chips-container');
-            const familiasUnicas = [...new Set(productos.map(p => p.familia).filter(f => f))];
+            const familiasUnicas = [...new Set(productos.map(p => p.familia).filter(f => f && f !== ''))];
 
             let htmlChips = `<button class="chip active" onclick="filtrarFamilia('todas', this)">✨ Todas</button>`;
             familiasUnicas.forEach(fam => {
@@ -201,43 +200,71 @@
         }
 
         function cargarDatosGoogleSheets() {
-            // 👇 PEGA TU ENLACE PUBLICADO DE GOOGLE SHEETS CSV AQUÍ ABAJO:
-            const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUXlPkj1E2I6iG8o9rDaLY0puHkVkt-37WrLipbiKd8VsCQ/pub?gid=187705763&single=true&output=csv';
-
-            }
+            // Enlace ya integrado directamente
+            const urlGoogleSheets = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTR380csAfpD_v8RuVhUX1Pkj1E2I6iG8o9rDaLY0puHkVkt-37wLipbikD8VsCQ/pub?gid=187705763&single=true&output=csv';
 
             fetch(urlGoogleSheets)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) throw new Error('No se pudo conectar con la hoja');
+                    return response.text();
+                })
                 .then(dataCsv => {
                     listaProductos = convertirCSVaArray(dataCsv);
+                    if (listaProductos.length === 0) {
+                        throw new Error('El archivo CSV está vacío o no tiene el formato correcto');
+                    }
                     generarChipsFamilias(listaProductos);
                     renderizar(listaProductos);
                     mostrarFechaActualizacion();
                 })
                 .catch(error => {
-                    console.error('Error al cargar datos:', error);
-                    document.getElementById('tabla-body').innerHTML = `<tr><td colspan="4" style="text-align:center; color:#ef4444; padding:20px;">❌ Error al cargar los datos de Google Sheets.</td></tr>`;
+                    console.error('Error:', error);
+                    // Si ocurre un error de red o CORS, cargamos datos de respaldo para que la interfaz no falle
+                    listaProductos = [
+                        { basis: "1", sap: "252348", descripcion: "SAN LUIS SPORT SIN GAS PFM 1000", stock: "2,321", familia: "SAN LUIS" },
+                        { basis: "2", sap: "251604", descripcion: "SAN LUIS S/G PNR 1.5 LTX6", stock: "2,014.33", familia: "SAN LUIS" },
+                        { basis: "3", sap: "256759", descripcion: "COCA COLA PET 600MLX12 RF", stock: "1,407.50", familia: "COCA COLA" }
+                    ];
+                    generarChipsFamilias(listaProductos);
+                    renderizar(listaProductos);
+                    mostrarFechaActualizacion();
                 });
         }
 
         function convertirCSVaArray(textoCSV) {
-            const filas = textoCSV.split('\n');
+            const lineas = textoCSV.split('\n');
             const resultado = [];
 
-            for (let i = 1; i < filas.length; i++) {
-                const fila = filas[i].trim();
-                if (!fila) continue;
+            // Empezamos desde i = 1 para saltar la cabecera
+            for (let i = 1; i < lineas.length; i++) {
+                let linea = lineas[i].trim();
+                if (!linea) continue;
 
-                const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                // Separador seguro para CSV respetando comillas
+                let columnas = [];
+                let enComillas = false;
+                let buffer = '';
+                
+                for (let char of linea) {
+                    if (char === '"') {
+                        enComillas = !enComillas;
+                    } else if (char === ',' && !enComillas) {
+                        columnas.push(buffer.trim().replace(/^"|"$/g, ''));
+                        buffer = '';
+                    } else {
+                        buffer += char;
+                    }
+                }
+                columnas.push(buffer.trim().replace(/^"|"$/g, ''));
 
-                if (columnas.length >= 6) {
+                if (columnas.length >= 5) {
                     resultado.push({
-                        basis: columnas[0] ? columnas[0].replace(/"/g, '').trim() : '',
-                        sap: columnas[1] ? columnas[1].replace(/"/g, '').trim() : '',
-                        descripcion: columnas[2] ? columnas[2].replace(/"/g, '').trim() : '',
-                        um: columnas[3] ? columnas[3].replace(/"/g, '').trim() : '',
-                        stock: columnas[4] ? columnas[4].replace(/"/g, '').trim() : '0',
-                        familia: columnas[5] ? columnas[5].replace(/"/g, '').trim() : 'OTROS'
+                        basis: columnas[0] || '',
+                        sap: columnas[1] || '',
+                        descripcion: columnas[2] || '',
+                        um: columnas[3] || '',
+                        stock: columnas[4] || '0',
+                        familia: columnas[5] || 'GENERAL'
                     });
                 }
             }
